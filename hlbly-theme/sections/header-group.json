@@ -1,0 +1,28 @@
+{
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_announcement": true
+      },
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on orders over $50 🚚"
+          }
+        }
+      },
+      "block_order": ["announcement-1"]
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 160,
+        "menu": "main-menu"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

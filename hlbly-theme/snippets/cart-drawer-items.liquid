@@ -1,0 +1,47 @@
+<div id="cart-drawer-inner">
+  {%- if cart.item_count > 0 -%}
+    {%- for item in cart.items -%}
+      <div class="cart-item">
+        <div class="cart-item__image">
+          {%- if item.image -%}
+            <img
+              src="{{ item.image | image_url: width: 150, height: 150, crop: 'center' }}"
+              alt="{{ item.image.alt | escape }}"
+              width="80" height="80"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+        <div>
+          <p class="cart-item__title">{{ item.product.title }}</p>
+          {%- if item.variant.title != 'Default Title' -%}
+            <p class="cart-item__variant">{{ item.variant.title }}</p>
+          {%- endif -%}
+          <div class="cart-item__footer">
+            <span class="cart-item__price">{{ item.price | money }}</span>
+            <button
+              class="cart-item__remove"
+              onclick="removeFromCart('{{ item.key }}')"
+              aria-label="Remove {{ item.product.title }}"
+            >Remove</button>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+
+    <div class="cart-drawer__footer">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal__label">Subtotal</span>
+        <span class="cart-subtotal__value">{{ cart.total_price | money }}</span>
+      </div>
+      <a href="{{ routes.checkout }}" class="btn btn--primary btn--full">Checkout</a>
+      <a href="{{ routes.cart_url }}" class="btn btn--outline btn--full" style="margin-top:0.75rem">View Cart</a>
+    </div>
+  {%- else -%}
+    <div class="cart-drawer__empty">
+      <div class="cart-drawer__empty-icon">🛒</div>
+      <p>Your cart is empty.</p>
+      <a href="{{ routes.root_url }}" class="btn btn--primary" onclick="closeCartDrawer()">Start Shopping</a>
+    </div>
+  {%- endif -%}
+</div>

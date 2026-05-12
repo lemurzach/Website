@@ -1,0 +1,34 @@
+{
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "brand_description": "Premium quality food & drink, delivered to your door.",
+        "show_policy_links": true
+      },
+      "blocks": {
+        "col-shop": {
+          "type": "link_column",
+          "settings": {
+            "title": "Shop"
+          }
+        },
+        "col-company": {
+          "type": "link_column",
+          "settings": {
+            "title": "Company"
+          }
+        },
+        "col-support": {
+          "type": "link_column",
+          "settings": {
+            "title": "Support"
+          }
+        }
+      },
+      "block_order": ["col-shop", "col-company", "col-support"]
+    }
+  },
+  "order": ["footer"]
+}

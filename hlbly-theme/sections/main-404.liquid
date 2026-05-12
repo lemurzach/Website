@@ -1,0 +1,17 @@
+<div class="page-404">
+  <div>
+    <div class="page-404__number">404</div>
+    <h1 class="page-404__title">Page Not Found</h1>
+    <p class="page-404__text">The page you're looking for doesn't exist or has been moved.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="{{ routes.root_url }}" class="btn btn--primary btn--lg">Go Home</a>
+      <a href="{{ routes.collections_url }}" class="btn btn--outline btn--lg">Browse Shop</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page"
+}
+{% endschema %}

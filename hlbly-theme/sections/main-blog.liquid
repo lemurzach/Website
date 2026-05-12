@@ -1,0 +1,38 @@
+<div style="padding:var(--spacing-xl) 0">
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-title">{{ blog.title }}</h1>
+    </div>
+
+    {%- paginate blog.articles by 9 -%}
+      <div class="blog-grid">
+        {%- for article in blog.articles -%}
+          <article class="blog-card">
+            {%- if article.image -%}
+              <a href="{{ article.url }}" class="blog-card__image" aria-label="{{ article.title }}">
+                <img
+                  src="{{ article.image | image_url: width: 700 }}"
+                  alt="{{ article.image.alt | escape | default: article.title }}"
+                  loading="lazy" width="700" height="394"
+                >
+              </a>
+            {%- endif -%}
+            <div class="blog-card__content">
+              <p class="blog-card__meta">{{ article.published_at | date: '%B %d, %Y' }} &middot; {{ article.author }}</p>
+              <h2 class="blog-card__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+              <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html }}</p>
+              <a href="{{ article.url }}" class="btn btn--outline btn--sm">Read More</a>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Blog"
+}
+{% endschema %}

@@ -1,0 +1,71 @@
+<div class="collection-header{% if collection.image %} collection-header--image{% endif %}">
+  {%- if collection.image -%}
+    <div style="position:absolute;inset:0">
+      <img src="{{ collection.image | image_url: width: 1600 }}" alt="{{ collection.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;opacity:0.4">
+    </div>
+  {%- endif -%}
+  <div class="container" style="position:relative">
+    <h1 class="collection-header__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="collection-header__description">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+<div class="collection-layout">
+  <div class="container">
+
+    <div class="collection-toolbar">
+      <p class="collection-count">{{ collection.products_count }} products</p>
+      <div class="collection-sort">
+        <label for="sort-select" class="sort-label">Sort by:</label>
+        <select id="sort-select" class="sort-select" onchange="window.location.search='?sort_by='+this.value">
+          {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      <div class="product-grid product-grid--{{ section.settings.columns }}" style="margin-top:2rem">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product %}
+        {%- else -%}
+          <p style="grid-column:1/-1;text-align:center;padding:4rem 0;color:var(--color-gray-600)">No products found.</p>
+        {%- endfor -%}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {%- endpaginate -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}

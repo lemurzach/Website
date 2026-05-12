@@ -1,0 +1,54 @@
+<div style="padding:var(--spacing-xl) 0">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--spacing-lg)">
+      <h1 style="font-size:2rem;font-weight:900">My Account</h1>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--outline btn--sm">Sign Out</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-lg);align-items:start">
+      <!-- Orders -->
+      <div>
+        <h2 style="font-size:1.125rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1.25rem">Order History</h2>
+        {%- if customer.orders.size > 0 -%}
+          <div style="border:1px solid var(--color-gray-200);border-radius:var(--radius-lg);overflow:hidden">
+            {%- for order in customer.orders -%}
+              <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--color-gray-100);display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <p style="font-weight:700;font-size:0.9375rem">{{ order.name }}</p>
+                  <p style="font-size:0.8rem;color:var(--color-gray-600)">{{ order.created_at | date: '%B %d, %Y' }}</p>
+                </div>
+                <div style="text-align:right">
+                  <p style="font-weight:700">{{ order.total_price | money }}</p>
+                  <span style="font-size:0.75rem;padding:2px 8px;border-radius:var(--radius-pill);background:var(--color-gray-100);font-weight:600">{{ order.financial_status_label }}</span>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p style="color:var(--color-gray-600);padding:2rem 0">You haven't placed any orders yet.</p>
+          <a href="{{ routes.root_url }}" class="btn btn--primary">Start Shopping</a>
+        {%- endif -%}
+      </div>
+
+      <!-- Account Details -->
+      <div>
+        <h2 style="font-size:1.125rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1.25rem">Account Details</h2>
+        <div style="border:1px solid var(--color-gray-200);border-radius:var(--radius-lg);padding:1.5rem">
+          <p style="font-weight:700;margin-bottom:0.25rem">{{ customer.name }}</p>
+          <p style="color:var(--color-gray-600);font-size:0.9rem;margin-bottom:1rem">{{ customer.email }}</p>
+          {%- if customer.default_address -%}
+            <div style="font-size:0.875rem;color:var(--color-gray-600);line-height:1.6;border-top:1px solid var(--color-gray-100);padding-top:1rem">
+              {{ customer.default_address | format_address }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Account"
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+{% if section.settings.show_announcement %}
+  <div class="announcement-bar" role="region" aria-label="Announcement">
+    <div class="announcement-ticker">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'announcement' %}
+            <p class="announcement-ticker__item">
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+              {% else %}
+                {{ block.settings.text }}
+              {% endif %}
+            </p>
+        {% endcase %}
+      {% endfor %}
+      {% if section.blocks.size == 0 %}
+        <p>Free shipping on orders over {{ section.settings.free_shipping_threshold | money }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free Shipping Threshold (in cents)",
+      "default": 5000
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping on all orders over $50"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on all orders over $50"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

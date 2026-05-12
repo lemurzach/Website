@@ -1,0 +1,62 @@
+{% comment %}
+  Usage: {% render 'product-card', product: product %}
+{% endcomment %}
+
+<article class="product-card">
+  <a href="{{ product.url }}" class="product-card__media" aria-label="{{ product.title }}">
+    {%- if product.featured_image -%}
+      <img
+        src="{{ product.featured_image | image_url: width: 600, height: 600, crop: 'center' }}"
+        alt="{{ product.featured_image.alt | escape | default: product.title }}"
+        width="600" height="600"
+        loading="lazy"
+        class="product-card__image"
+      >
+      {%- if product.images[1] -%}
+        <img
+          src="{{ product.images[1] | image_url: width: 600, height: 600, crop: 'center' }}"
+          alt="{{ product.images[1].alt | escape }}"
+          width="600" height="600"
+          loading="lazy"
+          class="product-card__image product-card__image--secondary"
+        >
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product-card__image' }}
+    {%- endif -%}
+
+    {%- if product.available == false -%}
+      <span class="product-card__badge product-card__badge--sold-out">Sold Out</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      <span class="product-card__badge">Sale</span>
+    {%- endif -%}
+
+    <div class="product-card__quick-add">
+      <button
+        type="button"
+        class="btn btn--primary btn--sm btn--full"
+        onclick="event.preventDefault();addToCart('{{ product.selected_or_first_available_variant.id }}', 1)"
+        {%- unless product.available -%}disabled{%- endunless -%}
+      >
+        {%- if product.available -%}Quick Add{%- else -%}Sold Out{%- endif -%}
+      </button>
+    </div>
+  </a>
+
+  <div class="product-card__info">
+    {%- if product.vendor != blank -%}
+      <p class="product-card__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    <div class="product-card__price">
+      <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
+        {{ product.price | money }}
+      </span>
+      {%- if product.compare_at_price > product.price -%}
+        <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

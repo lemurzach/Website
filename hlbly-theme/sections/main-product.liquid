@@ -1,0 +1,196 @@
+<section class="product-template">
+  <div class="container">
+    {% render 'breadcrumbs' %}
+
+    <div class="product-layout">
+
+      <!-- Gallery -->
+      <div class="product-gallery">
+        <div class="product-gallery__main" id="product-gallery-main">
+          {%- if product.featured_image -%}
+            <img
+              src="{{ product.featured_image | image_url: width: 900 }}"
+              alt="{{ product.featured_image.alt | escape | default: product.title }}"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+              loading="eager"
+              fetchpriority="high"
+              id="product-main-image"
+            >
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="product-gallery__thumbs">
+            {%- for image in product.images -%}
+              <button
+                class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+                aria-label="View image {{ forloop.index }}"
+                onclick="selectGalleryThumb(this, '{{ image | image_url: width: 900 }}')"
+              >
+                <img
+                  src="{{ image | image_url: width: 150, height: 150, crop: 'center' }}"
+                  alt="{{ image.alt | escape }}"
+                  width="72" height="72"
+                  loading="lazy"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        {%- if product.vendor != blank -%}
+          <p class="product-info__vendor">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <h1 class="product-info__title">{{ product.title }}</h1>
+
+        <div class="product-info__price">
+          <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}" data-product-price>
+            {{ product.price | money }}
+          </span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="price price--compare" data-compare-price>{{ product.compare_at_price | money }}</span>
+            <span class="product-card__badge" style="position:static">Sale</span>
+          {%- endif -%}
+        </div>
+
+        <div class="product-info__divider"></div>
+
+        {%- form 'product', product, data-product-form: '', id: 'product-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="product-option" style="margin-bottom:1.25rem">
+                <p class="variant-label">{{ option.name }} <span>{{ option.selected_value }}</span></p>
+                {%- if option.name == 'Color' or option.name == 'Colour' -%}
+                  <div class="color-swatches">
+                    {%- for value in option.values -%}
+                      <label>
+                        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" data-option
+                          {% if option.selected_value == value %}checked{% endif %}
+                          style="display:none"
+                        >
+                        <span
+                          class="color-swatch{% if option.selected_value == value %} is-active{% endif %}"
+                          style="background:{{ value | downcase | replace: ' ', '-' }}"
+                          title="{{ value }}"
+                          onclick="this.previousElementSibling.click();document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('is-active'));this.classList.add('is-active')"
+                        ></span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div class="size-options">
+                    {%- for value in option.values -%}
+                      <label>
+                        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" data-option
+                          {% if option.selected_value == value %}checked{% endif %}
+                          style="display:none"
+                        >
+                        <span
+                          class="size-option{% if option.selected_value == value %} is-active{% endif %}"
+                          onclick="this.previousElementSibling.click();this.closest('.size-options').querySelectorAll('.size-option').forEach(s=>s.classList.remove('is-active'));this.classList.add('is-active')"
+                        >{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <div class="quantity-wrapper">
+            <div class="quantity-selector">
+              <button type="button" class="quantity-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+              <input type="number" name="quantity" value="1" min="1" class="quantity-input" aria-label="Quantity">
+              <button type="button" class="quantity-btn" data-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+            <button
+              type="submit"
+              class="btn btn--primary btn--lg product-add-btn"
+              data-add-to-cart
+              data-original-text="{{ 'products.product.add_to_cart' | t }}"
+              {%- unless product.selected_or_first_available_variant.available -%}disabled{%- endunless -%}
+            >
+              {%- if product.selected_or_first_available_variant.available -%}
+                Add to Cart
+              {%- else -%}
+                Sold Out
+              {%- endif -%}
+            </button>
+          </div>
+
+        {%- endform -%}
+
+        <!-- Trust badges -->
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;padding:1.25rem 0;border-top:1px solid var(--color-gray-200);border-bottom:1px solid var(--color-gray-200);margin-bottom:1.25rem">
+          {%- if section.settings.show_free_shipping -%}
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;font-weight:600">
+              <span style="font-size:1.25rem">🚚</span>Free Shipping
+            </div>
+          {%- endif -%}
+          {%- if section.settings.show_returns -%}
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;font-weight:600">
+              <span style="font-size:1.25rem">↩️</span>Easy Returns
+            </div>
+          {%- endif -%}
+          {%- if section.settings.show_secure -%}
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;font-weight:600">
+              <span style="font-size:1.25rem">🔒</span>Secure Checkout
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if product.description != blank -%}
+          <div class="product-info__description">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  window.productVariants = {{ product.variants | json }};
+
+  function selectGalleryThumb(btn, src) {
+    document.querySelectorAll('.product-gallery__thumb').forEach(t => t.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const mainImg = document.getElementById('product-main-image');
+    if (mainImg) mainImg.src = src;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping",
+      "label": "Show Free Shipping badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Show Easy Returns badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secure",
+      "label": "Show Secure Checkout badge",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

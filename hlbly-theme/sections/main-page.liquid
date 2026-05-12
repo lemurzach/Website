@@ -1,0 +1,17 @@
+<div style="padding:var(--spacing-xl) 0">
+  <div class="container--narrow">
+    {%- if page.image -%}
+      <div style="aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:var(--spacing-lg)">
+        <img src="{{ page.image | image_url: width: 1200 }}" alt="{{ page.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover">
+      </div>
+    {%- endif -%}
+    <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1.5rem">{{ page.title }}</h1>
+    <div class="article-content" style="padding:0;max-width:none">{{ page.content }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page"
+}
+{% endschema %}

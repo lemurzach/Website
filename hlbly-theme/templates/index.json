@@ -1,0 +1,130 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_announcement": true
+      },
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on all orders over $50 🚀"
+          }
+        }
+      },
+      "block_order": ["announcement-1"]
+    },
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {
+        "layout": "overlay",
+        "height": "medium",
+        "overlay_opacity": 55,
+        "eyebrow": "New Collection",
+        "heading": "Bold Flavors\nfor Bold People",
+        "subheading": "Discover our handcrafted range of premium food and drink, made with the finest ingredients.",
+        "button_label": "Shop Now",
+        "button_link": "/collections/all",
+        "button_label_2": "Our Story",
+        "button_link_2": "/pages/about"
+      }
+    },
+    "featured-collection-1": {
+      "type": "featured-collection",
+      "settings": {
+        "background": "white",
+        "text_align": "left",
+        "eyebrow": "Best Sellers",
+        "heading": "Customer Favourites",
+        "subheading": "Our most-loved products, trusted by thousands of customers.",
+        "columns": "4",
+        "products_to_show": 4,
+        "button_label": "View All",
+        "button_link": "/collections/all"
+      }
+    },
+    "category-tiles": {
+      "type": "category-tiles",
+      "settings": {
+        "background": "light",
+        "text_align": "left",
+        "eyebrow": "Explore",
+        "heading": "Shop by Category"
+      },
+      "blocks": {
+        "tile-1": { "type": "tile", "settings": { "title": "Snacks", "count": "12 products" } },
+        "tile-2": { "type": "tile", "settings": { "title": "Drinks", "count": "8 products" } },
+        "tile-3": { "type": "tile", "settings": { "title": "Sauces", "count": "6 products" } },
+        "tile-4": { "type": "tile", "settings": { "title": "Bundles", "count": "4 products" } }
+      },
+      "block_order": ["tile-1", "tile-2", "tile-3", "tile-4"]
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "settings": {
+        "background": "white",
+        "image_position": "left",
+        "eyebrow": "Our Story",
+        "heading": "Made with Passion,\nDelivered with Care",
+        "text": "<p>We started HLBLY with one simple belief: food should taste incredible and be made with integrity. No compromises, no shortcuts — just bold, honest flavours.</p>",
+        "button_label": "Learn More",
+        "button_link": "/pages/about",
+        "button_style": "primary"
+      },
+      "blocks": {
+        "feature-1": { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients", "text": "No artificial additives, ever." } },
+        "feature-2": { "type": "feature", "settings": { "icon": "🚀", "title": "Fast Delivery", "text": "Dispatched same day before 2pm." } },
+        "feature-3": { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging", "text": "100% recyclable and compostable." } }
+      },
+      "block_order": ["feature-1", "feature-2", "feature-3"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "eyebrow": "Reviews",
+        "heading": "Loved by Thousands",
+        "subheading": "Don't just take our word for it."
+      },
+      "blocks": {
+        "review-1": { "type": "testimonial", "settings": { "rating": 5, "text": "Absolutely love this product. The quality is incredible and delivery was super fast!", "author": "Sarah K.", "location": "London, UK" } },
+        "review-2": { "type": "testimonial", "settings": { "rating": 5, "text": "Best purchase I've made this year. Already ordered three more times!", "author": "Marcus T.", "location": "Manchester, UK" } },
+        "review-3": { "type": "testimonial", "settings": { "rating": 5, "text": "Premium quality, gorgeous packaging, and it tastes amazing. Highly recommend.", "author": "Priya M.", "location": "Birmingham, UK" } }
+      },
+      "block_order": ["review-1", "review-2", "review-3"]
+    },
+    "featured-collection-2": {
+      "type": "featured-collection",
+      "settings": {
+        "background": "white",
+        "text_align": "center",
+        "eyebrow": "New Arrivals",
+        "heading": "Just Landed",
+        "columns": "4",
+        "products_to_show": 4,
+        "button_label": "Shop New Arrivals",
+        "button_link": "/collections/new-arrivals"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "style": "dark",
+        "heading": "Join the HLBLY Community",
+        "subheading": "Get exclusive deals, recipes, and early access to new products.",
+        "button_label": "Subscribe",
+        "disclaimer": "No spam. Unsubscribe anytime."
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "hero-banner",
+    "featured-collection-1",
+    "category-tiles",
+    "image-with-text",
+    "testimonials",
+    "featured-collection-2",
+    "newsletter"
+  ]
+}

@@ -1,0 +1,94 @@
+<div class="cart-page">
+  <div class="container">
+    <h1 class="cart-page__title">Your Cart</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-page__layout">
+        <div class="cart-page__items">
+          {%- form 'cart', cart -%}
+            <table class="cart-table" id="cart-form">
+              <thead>
+                <tr>
+                  <th colspan="2">Product</th>
+                  <th>Quantity</th>
+                  <th style="text-align:right">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for item in cart.items -%}
+                  <tr>
+                    <td style="width:90px">
+                      <div class="cart-table__image">
+                        {%- if item.image -%}
+                          <img
+                            src="{{ item.image | image_url: width: 150, height: 150, crop: 'center' }}"
+                            alt="{{ item.image.alt | escape }}"
+                            width="80" height="80"
+                            loading="lazy"
+                          >
+                        {%- endif -%}
+                      </div>
+                    </td>
+                    <td>
+                      <a href="{{ item.url }}" style="font-weight:700;font-size:0.9375rem;margin-bottom:0.25rem;display:block">{{ item.product.title }}</a>
+                      {%- if item.variant.title != 'Default Title' -%}
+                        <p style="font-size:0.8rem;color:var(--color-gray-600);margin-bottom:0.25rem">{{ item.variant.title }}</p>
+                      {%- endif -%}
+                      <p style="font-size:0.875rem;font-weight:600">{{ item.price | money }}</p>
+                      <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0" class="cart-item__remove">Remove</a>
+                    </td>
+                    <td>
+                      <div class="quantity-selector">
+                        <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | minus: 1 }}" class="quantity-btn">−</a>
+                        <span class="quantity-input" style="display:flex;align-items:center;justify-content:center">{{ item.quantity }}</span>
+                        <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | plus: 1 }}" class="quantity-btn">+</a>
+                      </div>
+                    </td>
+                    <td style="text-align:right;font-weight:700">{{ item.line_price | money }}</td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          {%- endform -%}
+        </div>
+
+        <div class="cart-summary">
+          <p class="cart-summary__title">Order Summary</p>
+          <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div class="cart-summary__row">
+            <span>Shipping</span>
+            <span>Calculated at checkout</span>
+          </div>
+          <div class="cart-summary__row cart-summary__row--total">
+            <span>Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <a href="{{ routes.checkout }}" class="btn btn--primary btn--full" style="margin-top:1.25rem">
+            Checkout
+          </a>
+          <a href="{{ routes.root_url }}" class="btn btn--outline btn--full" style="margin-top:0.75rem">
+            Continue Shopping
+          </a>
+          <p class="cart-summary__note">Taxes and shipping calculated at checkout. Secure checkout powered by Shopify.</p>
+        </div>
+      </div>
+
+    {%- else -%}
+      <div style="text-align:center;padding:5rem 0">
+        <div style="font-size:4rem;margin-bottom:1.5rem;opacity:0.2">🛒</div>
+        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:0.75rem">Your cart is empty</h2>
+        <p style="color:var(--color-gray-600);margin-bottom:2rem">Looks like you haven't added anything yet.</p>
+        <a href="{{ routes.root_url }}" class="btn btn--primary btn--lg">Start Shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart"
+}
+{% endschema %}

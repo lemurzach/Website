@@ -1,0 +1,14 @@
+{
+  "current": {
+    "color_primary": "#FF4438",
+    "color_primary_dark": "#E03020",
+    "color_dark": "#1A1A1A",
+    "color_background": "#FFFFFF",
+    "color_background_soft": "#F9F5F0",
+    "font_body_size": 16,
+    "logo_width": 160,
+    "cart_type": "drawer",
+    "animations_reveal_on_scroll": true
+  },
+  "presets": {}
+}

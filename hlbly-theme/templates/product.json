@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_free_shipping": true,
+        "show_returns": true,
+        "show_secure": true
+      }
+    }
+  },
+  "order": ["main"]
+}

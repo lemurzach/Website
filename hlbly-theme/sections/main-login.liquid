@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="account-form">
+    <h1 class="account-form__title">Sign In</h1>
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <div style="background:rgba(255,68,56,0.08);border:1px solid var(--color-primary);border-radius:var(--radius-md);padding:0.875rem 1rem;margin-bottom:1.25rem;font-size:0.875rem;color:var(--color-primary)">
+          {{ form.errors | default_errors }}
+        </div>
+      {%- endif -%}
+      <div class="form-group">
+        <label class="form-label" for="CustomerEmail">Email</label>
+        <input type="email" name="customer[email]" id="CustomerEmail" class="form-input" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="CustomerPassword">Password</label>
+        <input type="password" name="customer[password]" id="CustomerPassword" class="form-input" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+    {%- endform -%}
+    <p class="form-note">
+      <a href="{{ routes.account_recover_url }}">Forgot your password?</a>
+      &nbsp;&middot;&nbsp;
+      <a href="{{ routes.account_register_url }}">Create account</a>
+    </p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Login"
+}
+{% endschema %}

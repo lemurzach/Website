@@ -1,0 +1,103 @@
+<section class="newsletter-section{% if section.settings.style == 'primary' %} newsletter-section--primary{% endif %}">
+  <div class="container">
+    <div class="newsletter__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="section-eyebrow" style="color:rgba(255,255,255,0.6)">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="newsletter__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="newsletter__subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {% form 'customer', data-newsletter-form: '' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="newsletter__form">
+          <input
+            type="email"
+            name="contact[email]"
+            class="newsletter__input"
+            placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+            required
+            autocomplete="email"
+            aria-label="Email address"
+          >
+          <button type="submit" class="btn btn--primary">{{ section.settings.button_label | default: 'Subscribe' }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="newsletter__success" style="display:block">{{ section.settings.success_message | default: "You're subscribed! Thanks for joining." }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p style="color:rgba(255,255,255,0.7);margin-top:0.75rem;font-size:0.875rem">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+      {% endform %}
+
+      {%- if section.settings.disclaimer != blank -%}
+        <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:1rem">{{ section.settings.disclaimer }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "primary", "label": "Brand Red" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the HLBLY Community"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get exclusive deals, recipes, and early access to new products."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input Placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "You're in! Check your inbox for a welcome gift."
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer Text",
+      "default": "No spam. Unsubscribe anytime."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
