@@ -1,103 +1,141 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="{{ settings.color_primary }}">
-    <link rel="canonical" href="{{ canonical_url }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#FF4438">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- endif -%}
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
 
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
 
-    {% render 'meta-tags' %}
+  {% render 'meta-tags' %}
+  {{ content_for_header }}
 
-    {{ content_for_header }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
 
-    {{ 'theme.css' | asset_url | stylesheet_tag }}
+  <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    window.routes = {
+      cart_url:               '{{ routes.cart_url }}',
+      cart_add_url:           '/cart/add',
+      cart_change_url:        '/cart/change',
+      predictive_search_url:  '{{ routes.predictive_search_url }}'
+    };
+    window.freeShipThreshold = {{ settings.free_ship_threshold | default: 5000 }};
+    window.shopUrl = '{{ shop.url }}';
+  </script>
+</head>
 
-    <script>
-      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
-      window.shopUrl = '{{ shop.url }}';
-      window.routes = {
-        cart_add_url: '{{ routes.cart_add_url }}',
-        cart_change_url: '{{ routes.cart_change_url }}',
-        cart_update_url: '{{ routes.cart_update_url }}',
-        cart_url: '{{ routes.cart_url }}',
-        predictive_search_url: '{{ routes.predictive_search_url }}'
-      };
-      window.cartStrings = {
-        error: `{{ 'sections.cart.cart_error' | t }}`,
-        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
-      };
-    </script>
-  </head>
+<body class="template-{{ template.name }}{% if template.suffix != blank %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
 
-  <body class="gradient{% if settings.animations_reveal_on_scroll %} animate--page-load{% endif %}">
+  {%- sections 'header-group' -%}
 
-    {%- sections 'header-group' -%}
-
-    <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
-      <div class="cart-drawer__overlay" onclick="closeCartDrawer()"></div>
-      <div class="cart-drawer__inner">
-        <div class="cart-drawer__header">
-          <h2 class="cart-drawer__title">Your Cart</h2>
-          <button class="cart-drawer__close" onclick="closeCartDrawer()" aria-label="Close cart">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </button>
+  <!-- Cart Drawer -->
+  <div id="cart-drawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Shopping cart">
+    <div class="cart-drawer__bg" onclick="closeCartDrawer()"></div>
+    <div class="cart-drawer__panel">
+      <div class="cart-drawer__head">
+        <div>
+          <p class="cart-drawer__title">Your Cart</p>
+          <p class="cart-drawer__subtitle" id="cart-item-count"></p>
         </div>
-        <div class="cart-drawer__content" id="cart-drawer-content">
-          {% render 'cart-drawer-items' %}
-        </div>
-      </div>
-    </div>
-
-    <div id="search-modal" class="search-modal" aria-hidden="true">
-      <div class="search-modal__overlay" onclick="closeSearchModal()"></div>
-      <div class="search-modal__inner">
-        <form action="{{ routes.search_url }}" method="get" class="search-modal__form">
-          <input type="hidden" name="type" value="product">
-          <input class="search-modal__input" type="search" name="q" placeholder="Search HLBLY..." autocomplete="off" autocorrect="off" autofocus>
-          <button type="submit" class="search-modal__submit" aria-label="Submit search">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M15 15l-2.5-2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </form>
-        <button class="search-modal__close" onclick="closeSearchModal()" aria-label="Close search">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <button class="hdr-icon" onclick="closeCartDrawer()" aria-label="Close cart">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
+
+      <div id="free-ship-bar" class="free-ship-bar">
+        <p class="free-ship-bar__text"><em>$50</em> away from free shipping</p>
+        <div class="free-ship-bar__track">
+          <div class="free-ship-bar__fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="cart-drawer__items" id="cart-drawer-content">
+        <div class="cart-drawer__empty">
+          <div class="cart-drawer__empty-icon">🛒</div>
+          <h3>Your cart is empty</h3>
+          <p>Add something delicious to get started.</p>
+          <button class="btn btn--primary" onclick="closeCartDrawer()">Continue Shopping</button>
+        </div>
+      </div>
+
+      <div class="cart-drawer__foot" id="cart-drawer-foot" style="display:none">
+        <div class="cart-subtotal">
+          <span class="cart-subtotal__label">Subtotal</span>
+          <span class="cart-subtotal__val" id="cart-subtotal-val">—</span>
+        </div>
+        <p style="font-size:.75rem;color:var(--c-gray-4);text-align:center">Taxes & shipping calculated at checkout</p>
+        <a href="{{ routes.checkout }}" class="btn btn--primary btn--full btn--xl">
+          Checkout
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="{{ routes.cart_url }}" class="btn btn--outline btn--full">View Cart</a>
+      </div>
     </div>
+  </div>
 
-    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-      {{ content_for_layout }}
-    </main>
+  <!-- Search Modal -->
+  <div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-modal__bg" onclick="closeSearchModal()"></div>
+    <div class="search-modal__box" role="search">
+      <form action="{{ routes.search_url }}" method="get" class="search-form" role="search">
+        <input type="hidden" name="type" value="product">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 12l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          class="search-input"
+          type="search"
+          name="q"
+          placeholder="Search HLBLY products..."
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        >
+        <button type="submit" class="hdr-icon" aria-label="Submit search" style="flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M4 9h10M9 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+      <button class="search-close" onclick="closeSearchModal()" aria-label="Close search">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
 
-    {%- sections 'footer-group' -%}
+  <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
 
-    {{ 'theme.js' | asset_url | script_tag }}
+  {%- sections 'footer-group' -%}
 
-  </body>
+  {{ 'theme.js' | asset_url | script_tag }}
+
+</body>
 </html>

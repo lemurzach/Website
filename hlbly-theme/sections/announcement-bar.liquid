@@ -1,23 +1,23 @@
-{% if section.settings.show_announcement %}
-  <div class="announcement-bar" role="region" aria-label="Announcement">
-    <div class="announcement-ticker">
+{% if section.settings.show %}
+<div class="ann-bar{% if section.settings.style == 'primary' %} ann-bar--primary{% endif %}" role="region" aria-label="Announcement">
+  <div class="ann-marquee" aria-live="polite">
+    <div class="ann-marquee__track">
       {% for block in section.blocks %}
         {% case block.type %}
-          {% when 'announcement' %}
-            <p class="announcement-ticker__item">
+          {% when 'item' %}
+            <span class="ann-item" {{ block.shopify_attributes }}>
               {% if block.settings.link != blank %}
                 <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
               {% else %}
                 {{ block.settings.text }}
               {% endif %}
-            </p>
+            </span>
+            <span class="ann-sep" aria-hidden="true">✦</span>
         {% endcase %}
       {% endfor %}
-      {% if section.blocks.size == 0 %}
-        <p>Free shipping on orders over {{ section.settings.free_shipping_threshold | money }}</p>
-      {% endif %}
     </div>
   </div>
+</div>
 {% endif %}
 
 {% schema %}
@@ -25,50 +25,35 @@
   "name": "Announcement Bar",
   "limit": 1,
   "settings": [
+    { "type": "checkbox", "id": "show", "label": "Show announcement bar", "default": true },
     {
-      "type": "checkbox",
-      "id": "show_announcement",
-      "label": "Show Announcement Bar",
-      "default": true
-    },
-    {
-      "type": "number",
-      "id": "free_shipping_threshold",
-      "label": "Free Shipping Threshold (in cents)",
-      "default": 5000
+      "type": "select",
+      "id": "style",
+      "label": "Background",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "primary", "label": "Brand Red" }
+      ],
+      "default": "dark"
     }
   ],
   "blocks": [
     {
-      "type": "announcement",
-      "name": "Announcement",
+      "type": "item",
+      "name": "Announcement Item",
       "settings": [
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Text",
-          "default": "Free shipping on all orders over $50"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link (optional)"
-        }
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on orders over $50" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Announcement Bar",
-      "blocks": [
-        {
-          "type": "announcement",
-          "settings": {
-            "text": "Free shipping on all orders over $50"
-          }
-        }
-      ]
-    }
-  ]
+  "presets": [{
+    "name": "Announcement Bar",
+    "blocks": [
+      { "type": "item", "settings": { "text": "Free shipping on orders over $50 🚚" } },
+      { "type": "item", "settings": { "text": "New flavours just dropped 🔥" } },
+      { "type": "item", "settings": { "text": "Use code HLBLY10 for 10% off your first order" } }
+    ]
+  }]
 }
 {% endschema %}

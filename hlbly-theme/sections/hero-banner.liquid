@@ -1,43 +1,54 @@
-{%- assign hero_class = 'hero' -%}
-{%- if section.settings.height == 'short' -%}{%- assign hero_class = hero_class | append: ' hero--short' -%}{%- endif -%}
-{%- if section.settings.height == 'full' -%}{%- assign hero_class = hero_class | append: ' hero--full' -%}{%- endif -%}
-{%- if section.settings.layout == 'split' -%}{%- assign hero_class = hero_class | append: ' hero--split' -%}{%- endif -%}
+{%- liquid
+  assign hero_cls = 'hero'
+  case section.settings.height
+    when 'short'
+      assign hero_cls = hero_cls | append: ' hero--short'
+    when 'full'
+      assign hero_cls = hero_cls | append: ' hero--full'
+    when 'medium'
+      assign hero_cls = hero_cls | append: ' hero--medium'
+  endcase
+  if section.settings.layout == 'split'
+    assign hero_cls = hero_cls | append: ' hero--split'
+  endif
+-%}
 
 {% if section.settings.layout == 'split' %}
-
-  <section class="{{ hero_class }}">
+  <!-- ─ Split Layout ─ -->
+  <section class="{{ hero_cls }}">
     <div class="container">
       <div class="hero__inner">
-        <div class="hero__content">
-          {%- if section.settings.eyebrow != blank -%}
-            <p class="hero__eyebrow">{{ section.settings.eyebrow }}</p>
+        <div class="hero__body" style="padding:0">
+          {%- if section.settings.label != blank -%}
+            <div class="hero__label">{{ section.settings.label }}</div>
           {%- endif -%}
-          <h1 class="hero__title" style="color:var(--color-dark)">{{ section.settings.heading | newline_to_br }}</h1>
+          <h1 class="hero__title" style="color:var(--c-dark)">
+            {{ section.settings.heading | newline_to_br }}
+          </h1>
           {%- if section.settings.subheading != blank -%}
-            <p class="hero__subtitle" style="color:var(--color-gray-600)">{{ section.settings.subheading }}</p>
+            <p class="hero__sub" style="color:var(--c-gray-4)">{{ section.settings.subheading }}</p>
           {%- endif -%}
-          <div class="hero__actions">
-            {%- if section.settings.button_label != blank -%}
-              <a href="{{ section.settings.button_link }}" class="btn btn--primary btn--lg">{{ section.settings.button_label }}</a>
+          <div class="hero__ctas">
+            {%- if section.settings.cta1_label != blank -%}
+              <a href="{{ section.settings.cta1_url }}" class="btn btn--primary btn--xl">{{ section.settings.cta1_label }}</a>
             {%- endif -%}
-            {%- if section.settings.button_label_2 != blank -%}
-              <a href="{{ section.settings.button_link_2 }}" class="btn btn--outline btn--lg">{{ section.settings.button_label_2 }}</a>
+            {%- if section.settings.cta2_label != blank -%}
+              <a href="{{ section.settings.cta2_url }}" class="btn btn--outline btn--xl">{{ section.settings.cta2_label }}</a>
             {%- endif -%}
           </div>
         </div>
         <div class="hero__media">
           {%- if section.settings.image != blank -%}
             <img
-              src="{{ section.settings.image | image_url: width: 1000 }}"
+              src="{{ section.settings.image | image_url: width: 1200 }}"
               alt="{{ section.settings.image.alt | escape | default: section.settings.heading }}"
               width="{{ section.settings.image.width }}"
               height="{{ section.settings.image.height }}"
               loading="eager"
               fetchpriority="high"
-              class="hero__image"
             >
           {%- else -%}
-            <div style="background:var(--color-gray-200);width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.875rem;color:var(--color-gray-400)">Add hero image</div>
+            <div style="background:var(--c-gray-2);width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--c-gray-3);font-size:.875rem">Add image</div>
           {%- endif -%}
         </div>
       </div>
@@ -45,45 +56,50 @@
   </section>
 
 {% else %}
-
-  <section class="{{ hero_class }}">
-    <div class="hero__media">
+  <!-- ─ Overlay Layout ─ -->
+  <section class="{{ hero_cls }}">
+    <div class="hero__bg">
       {%- if section.settings.image != blank -%}
         <img
-          src="{{ section.settings.image | image_url: width: 2000 }}"
+          src="{{ section.settings.image | image_url: width: 2400 }}"
           alt="{{ section.settings.image.alt | escape | default: section.settings.heading }}"
           width="{{ section.settings.image.width }}"
           height="{{ section.settings.image.height }}"
           loading="eager"
           fetchpriority="high"
-          class="hero__image"
         >
-      {%- else -%}
-        <div style="background:var(--color-dark);width:100%;height:100%"></div>
       {%- endif -%}
     </div>
-    <div class="hero__overlay" style="background:linear-gradient(to right, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}) 0%, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 200.0 }}) 70%)"></div>
-    <div class="container" style="position:relative;z-index:2">
-      <div class="hero__content">
-        {%- if section.settings.eyebrow != blank -%}
-          <p class="hero__eyebrow">{{ section.settings.eyebrow }}</p>
+    <div class="hero__overlay" style="background:linear-gradient({{ section.settings.overlay_dir }}, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 | round: 2 }}) 0%, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 250.0 | round: 2 }}) 70%, rgba(0,0,0,0) 100%)"></div>
+
+    <div class="container">
+      <div class="hero__body" style="text-align:{{ section.settings.text_align }}{% if section.settings.text_align == 'center' %};max-width:760px;margin:0 auto{% endif %}">
+        {%- if section.settings.label != blank -%}
+          <div class="hero__label">{{ section.settings.label }}</div>
         {%- endif -%}
-        <h1 class="hero__title">{{ section.settings.heading | newline_to_br }}</h1>
+        <h1 class="hero__title">
+          {{ section.settings.heading | newline_to_br }}
+        </h1>
         {%- if section.settings.subheading != blank -%}
-          <p class="hero__subtitle">{{ section.settings.subheading }}</p>
+          <p class="hero__sub">{{ section.settings.subheading }}</p>
         {%- endif -%}
-        <div class="hero__actions">
-          {%- if section.settings.button_label != blank -%}
-            <a href="{{ section.settings.button_link }}" class="btn btn--primary btn--lg">{{ section.settings.button_label }}</a>
+        <div class="hero__ctas" style="justify-content:{{ section.settings.text_align == 'center' ? 'center' : 'flex-start' }}">
+          {%- if section.settings.cta1_label != blank -%}
+            <a href="{{ section.settings.cta1_url }}" class="btn btn--primary btn--xl">{{ section.settings.cta1_label }}</a>
           {%- endif -%}
-          {%- if section.settings.button_label_2 != blank -%}
-            <a href="{{ section.settings.button_link_2 }}" class="btn btn--outline-white btn--lg">{{ section.settings.button_label_2 }}</a>
+          {%- if section.settings.cta2_label != blank -%}
+            <a href="{{ section.settings.cta2_url }}" class="btn btn--outline-w btn--xl">{{ section.settings.cta2_label }}</a>
           {%- endif -%}
         </div>
       </div>
     </div>
-  </section>
 
+    {%- if section.settings.show_scroll_indicator -%}
+      <div class="hero__scroll" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    {%- endif -%}
+  </section>
 {% endif %}
 
 {% schema %}
@@ -91,85 +107,54 @@
   "name": "Hero Banner",
   "settings": [
     {
-      "type": "select",
-      "id": "layout",
-      "label": "Layout",
+      "type": "select", "id": "layout", "label": "Layout",
       "options": [
-        { "value": "overlay", "label": "Image with Overlay" },
-        { "value": "split", "label": "Split (Image + Content)" }
+        { "value": "overlay", "label": "Full-width image with overlay" },
+        { "value": "split",   "label": "Split — content + image" }
       ],
       "default": "overlay"
     },
     {
-      "type": "select",
-      "id": "height",
-      "label": "Height",
+      "type": "select", "id": "height", "label": "Height",
       "options": [
-        { "value": "short", "label": "Short (60vh)" },
-        { "value": "medium", "label": "Medium (85vh)" },
-        { "value": "full", "label": "Full Screen" }
+        { "value": "short",  "label": "Short (62vh)"    },
+        { "value": "medium", "label": "Medium (80vh)"   },
+        { "value": "tall",   "label": "Tall (88vh)"     },
+        { "value": "full",   "label": "Full screen"     }
       ],
-      "default": "medium"
+      "default": "tall"
+    },
+    { "type": "image_picker", "id": "image", "label": "Background / Feature Image" },
+    {
+      "type": "range", "id": "overlay_opacity", "label": "Overlay opacity",
+      "min": 0, "max": 85, "step": 5, "default": 55, "unit": "%"
     },
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Hero Image"
+      "type": "select", "id": "overlay_dir", "label": "Overlay direction",
+      "options": [
+        { "value": "135deg", "label": "Diagonal (bottom-right)" },
+        { "value": "to right", "label": "Left to right" },
+        { "value": "to bottom", "label": "Top to bottom" }
+      ],
+      "default": "135deg"
     },
     {
-      "type": "range",
-      "id": "overlay_opacity",
-      "label": "Overlay Opacity",
-      "min": 0,
-      "max": 90,
-      "step": 5,
-      "default": 55,
-      "unit": "%"
+      "type": "select", "id": "text_align", "label": "Text alignment",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
     },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow Text",
-      "default": "New Collection"
-    },
-    {
-      "type": "textarea",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Bold Flavors\nfor Bold People"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Discover our handcrafted range of premium food and drink."
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button 1 Label",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "button_label_2",
-      "label": "Button 2 Label"
-    },
-    {
-      "type": "url",
-      "id": "button_link_2",
-      "label": "Button 2 Link"
-    }
+    { "type": "text",     "id": "label",      "label": "Label pill",    "default": "New Collection" },
+    { "type": "textarea", "id": "heading",    "label": "Heading",       "default": "Bold Flavours\nfor Bold People" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading",    "default": "Premium food & drink crafted with real ingredients." },
+    { "type": "text",     "id": "cta1_label", "label": "Button 1 label","default": "Shop Now" },
+    { "type": "url",      "id": "cta1_url",   "label": "Button 1 link" },
+    { "type": "text",     "id": "cta2_label", "label": "Button 2 label","default": "Our Story" },
+    { "type": "url",      "id": "cta2_url",   "label": "Button 2 link" },
+    { "type": "checkbox", "id": "show_scroll_indicator", "label": "Show scroll indicator", "default": true }
   ],
-  "presets": [
-    {
-      "name": "Hero Banner"
-    }
-  ]
+  "presets": [{ "name": "Hero Banner" }]
 }
 {% endschema %}

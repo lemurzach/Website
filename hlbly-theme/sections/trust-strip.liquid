@@ -1,0 +1,47 @@
+<div class="trust-strip">
+  <div class="container">
+    <div class="trust-strip__inner">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'item' -%}
+            <div class="trust-item" {{ block.shopify_attributes }}>
+              <div class="trust-item__icon">{{ block.settings.icon }}</div>
+              <div>
+                <p class="trust-item__title">{{ block.settings.title }}</p>
+                {%- if block.settings.subtitle != blank -%}
+                  <p class="trust-item__sub">{{ block.settings.subtitle }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Strip",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust Item",
+      "settings": [
+        { "type": "text", "id": "icon",     "label": "Emoji icon", "default": "🚚" },
+        { "type": "text", "id": "title",    "label": "Title",      "default": "Free Shipping" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle",   "default": "On orders over $50" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Trust Strip",
+    "blocks": [
+      { "type": "item", "settings": { "icon": "🚚", "title": "Free Shipping",       "subtitle": "On orders over $50"      } },
+      { "type": "item", "settings": { "icon": "🌿", "title": "Natural Ingredients", "subtitle": "No artificial additives" } },
+      { "type": "item", "settings": { "icon": "↩️", "title": "Easy Returns",        "subtitle": "30-day hassle-free"      } },
+      { "type": "item", "settings": { "icon": "🔒", "title": "Secure Checkout",     "subtitle": "256-bit SSL encryption"  } }
+    ]
+  }]
+}
+{% endschema %}

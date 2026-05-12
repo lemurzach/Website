@@ -1,46 +1,46 @@
-{%- assign collection = collections[section.settings.collection] -%}
-{%- assign products = collection.products | default: empty -%}
+{%- assign coll = collections[section.settings.collection] -%}
 
-<section class="featured-collection section-padding{% if section.settings.background == 'light' %} featured-collection--bg{% endif %}">
+<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
   <div class="container">
-    <div class="section-header{% if section.settings.text_align == 'center' %} section-header--center{% endif %}">
-      {%- if section.settings.eyebrow != blank -%}
-        <span class="section-eyebrow">{{ section.settings.eyebrow }}</span>
-      {%- endif -%}
-      <h2 class="section-title">{{ section.settings.heading }}</h2>
-      {%- if section.settings.subheading != blank -%}
-        <p class="section-subtitle">{{ section.settings.subheading }}</p>
-      {%- endif -%}
-      {%- if section.settings.button_label != blank and section.settings.text_align != 'center' -%}
-        <div class="section-header__action">
-          <a href="{{ collection.url | default: section.settings.button_link }}" class="btn btn--outline">{{ section.settings.button_label }}</a>
-        </div>
+
+    <div class="sh{% if section.settings.header_align == 'center' %} sh--center{% endif %}" data-reveal style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="sh__title" style="margin-bottom:0">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}<p class="sh__sub" style="margin-top:.625rem">{{ section.settings.subheading }}</p>{%- endif -%}
+      </div>
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ coll.url | default: section.settings.cta_url }}" class="btn btn--outline{% if section.settings.background == 'dark' %}-w{% endif %}" style="flex-shrink:0">
+          {{ section.settings.cta_label }}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       {%- endif -%}
     </div>
 
-    <div class="product-grid product-grid--{{ section.settings.columns }}">
-      {%- for product in collection.products limit: section.settings.products_to_show -%}
+    <div class="product-grid" style="--cols:{{ section.settings.columns }}">
+      {%- for product in coll.products limit: section.settings.count -%}
         {% render 'product-card', product: product %}
       {%- else -%}
-        {%- for i in (1..section.settings.products_to_show) -%}
-          <div class="product-card">
-            <div class="product-card__media">
-              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-card__image' }}
+        {%- for i in (1..section.settings.count) -%}
+          <article class="pc">
+            <div class="pc__media" style="aspect-ratio:1;background:var(--c-gray-1)">
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'pc__img' }}
             </div>
-            <div class="product-card__info">
-              <p class="product-card__title">Sample Product {{ forloop.index }}</p>
-              <div class="product-card__price"><span class="price">$29.99</span></div>
+            <div class="pc__info">
+              <h3 class="pc__title"><a href="#">Sample Product {{ forloop.index }}</a></h3>
+              <div class="pc__price"><span class="price">$24.99</span></div>
             </div>
-          </div>
+          </article>
         {%- endfor -%}
       {%- endfor -%}
     </div>
 
-    {%- if section.settings.button_label != blank and section.settings.text_align == 'center' -%}
-      <div class="text-center" style="margin-top:2.5rem">
-        <a href="{{ collection.url | default: section.settings.button_link }}" class="btn btn--outline">{{ section.settings.button_label }}</a>
+    {%- if section.settings.cta_label_bottom != blank -%}
+      <div style="text-align:center;margin-top:2.5rem" data-reveal>
+        <a href="{{ coll.url | default: section.settings.cta_url }}" class="btn btn--primary btn--lg">{{ section.settings.cta_label_bottom }}</a>
       </div>
     {%- endif -%}
+
   </div>
 </section>
 
@@ -48,52 +48,26 @@
 {
   "name": "Featured Collection",
   "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
     {
-      "type": "collection",
-      "id": "collection",
-      "label": "Collection"
-    },
-    {
-      "type": "select",
-      "id": "background",
-      "label": "Background",
+      "type": "select", "id": "background", "label": "Background",
       "options": [
         { "value": "white", "label": "White" },
-        { "value": "light", "label": "Light Warm" }
+        { "value": "sand",  "label": "Sand / Warm" },
+        { "value": "dark",  "label": "Dark" }
       ],
       "default": "white"
     },
     {
-      "type": "select",
-      "id": "text_align",
-      "label": "Header Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ],
+      "type": "select", "id": "header_align", "label": "Header alignment",
+      "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }],
       "default": "left"
     },
+    { "type": "text", "id": "eyebrow",    "label": "Eyebrow",    "default": "Featured" },
+    { "type": "text", "id": "heading",    "label": "Heading",    "default": "Best Sellers" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow Label",
-      "default": "Featured"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Our Best Sellers"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading"
-    },
-    {
-      "type": "select",
-      "id": "columns",
-      "label": "Columns",
+      "type": "select", "id": "columns", "label": "Columns",
       "options": [
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" },
@@ -101,31 +75,11 @@
       ],
       "default": "4"
     },
-    {
-      "type": "range",
-      "id": "products_to_show",
-      "label": "Products to Show",
-      "min": 2,
-      "max": 12,
-      "step": 1,
-      "default": 4
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button Label",
-      "default": "View All"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
-    }
+    { "type": "range", "id": "count", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "text", "id": "cta_label",        "label": "Header CTA label",  "default": "View All" },
+    { "type": "url",  "id": "cta_url",          "label": "CTA URL (fallback)" },
+    { "type": "text", "id": "cta_label_bottom", "label": "Bottom CTA label (optional)" }
   ],
-  "presets": [
-    {
-      "name": "Featured Collection"
-    }
-  ]
+  "presets": [{ "name": "Featured Collection" }]
 }
 {% endschema %}

@@ -1,73 +1,88 @@
-<header class="site-header" role="banner">
+<header
+  class="site-header{% if section.settings.transparent_on_home and template.name == 'index' %} is-transparent{% endif %}"
+  data-transparent-on-top="{{ section.settings.transparent_on_home }}"
+  role="banner"
+>
   <div class="container">
     <div class="header-inner">
 
-      <!-- Mobile Toggle -->
-      <button class="header-icon-btn header-mobile-toggle" onclick="openMobileNav()" aria-label="Open menu" aria-expanded="false">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      <!-- Mobile toggle -->
+      <button class="hdr-icon hdr-mobile-toggle" onclick="openMobileNav()" aria-label="Open menu" style="display:none">
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <path d="M1 1h20M1 8h20M1 15h20" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
         </svg>
       </button>
 
       <!-- Logo -->
-      <div class="header-logo">
-        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-          {%- if section.settings.logo != blank -%}
-            <img
-              src="{{ section.settings.logo | image_url: width: 300 }}"
-              alt="{{ shop.name }}"
-              width="{{ section.settings.logo_width }}"
-              height="auto"
-              loading="eager"
-            >
-          {%- else -%}
-            <span class="header-logo__text">{{ shop.name | split: '' | first }}<span>{{ shop.name | slice: 1, 100 }}</span></span>
-          {%- endif -%}
-        </a>
-      </div>
+      <a href="{{ routes.root_url }}" class="header-logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: 300 }}"
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_width }}"
+            height="auto"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- else -%}
+          <span class="header-logo__text">
+            {{- shop.name | slice: 0, 4 -}}<em>{{- shop.name | slice: 4, 100 -}}</em>
+          </span>
+        {%- endif -%}
+      </a>
 
       <!-- Desktop Nav -->
-      <nav class="header-nav" role="navigation" aria-label="Main navigation">
-        {% for link in section.settings.menu.links %}
-          <div class="header-nav__item">
-            {% if link.links.size > 0 %}
-              <a href="{{ link.url }}" class="header-nav__link">{{ link.title }}</a>
-              <div class="header-nav__dropdown">
-                {% for child in link.links %}
-                  <a href="{{ child.url }}" class="header-nav__dropdown-link">{{ child.title }}</a>
-                {% endfor %}
+      <nav class="header-nav" role="navigation" aria-label="Main">
+        {%- for link in section.settings.menu.links -%}
+          <div class="nav-item">
+            {%- if link.links.size > 0 -%}
+              <button class="nav-link" type="button" aria-expanded="false" aria-haspopup="true">
+                {{ link.title }}
+                <svg class="chevron" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav-dropdown" role="menu">
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}" class="nav-dropdown__link" role="menuitem">{{ child.title }}</a>
+                {%- endfor -%}
               </div>
-            {% else %}
-              <a href="{{ link.url }}" class="header-nav__link">{{ link.title }}</a>
-            {% endif %}
+            {%- else -%}
+              <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+            {%- endif -%}
           </div>
-        {% endfor %}
+        {%- endfor -%}
       </nav>
 
       <!-- Actions -->
       <div class="header-actions">
-        <button class="header-icon-btn" onclick="openSearchModal()" aria-label="Search">
+        <!-- Search -->
+        <button class="hdr-icon" onclick="openSearchModal()" aria-label="Search">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M15 15l-2.5-2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </button>
 
+        <!-- Account -->
         {%- if shop.customer_accounts_enabled -%}
-          <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Account">
+          <a
+            href="{{ customer ? routes.account_url : routes.account_login_url }}"
+            class="hdr-icon"
+            aria-label="{{ customer ? 'Account' : 'Sign in' }}"
+          >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="10" cy="6.5" r="3.25" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M3.5 17c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </a>
         {%- endif -%}
 
-        <button class="header-icon-btn" onclick="openCartDrawer()" aria-label="Cart">
+        <!-- Cart -->
+        <button class="hdr-icon" onclick="openCartDrawer()" aria-label="Cart">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M6.5 7.5V6a3.5 3.5 0 017 0v1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M2.5 7.5h15l-1.25 8.75H3.75L2.5 7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M6.75 7.5V6A3.25 3.25 0 0113.25 6v1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M2.5 7.5h15l-1.5 9H4L2.5 7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
           </svg>
-          <span class="cart-count" aria-live="polite">{{ cart.item_count }}</span>
+          <span class="cart-bubble" id="cart-count" aria-live="polite">{{ cart.item_count }}</span>
         </button>
       </div>
 
@@ -75,26 +90,32 @@
   </div>
 </header>
 
-<!-- Mobile Navigation -->
+<!-- Mobile Nav -->
 <div id="mobile-nav" class="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-  <div class="mobile-nav__overlay" onclick="closeMobileNav()"></div>
-  <div class="mobile-nav__drawer">
-    <div class="mobile-nav__header">
-      <span class="header-logo__text">{{ shop.name }}</span>
-      <button onclick="closeMobileNav()" aria-label="Close menu" class="header-icon-btn">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <div class="mobile-nav__bg" onclick="closeMobileNav()"></div>
+  <div class="mobile-nav__panel">
+    <div class="mobile-nav__head">
+      <span class="header-logo__text">{{- shop.name | slice: 0, 4 -}}<em style="color:var(--c-primary)">{{- shop.name | slice: 4, 100 -}}</em></span>
+      <button onclick="closeMobileNav()" class="hdr-icon" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
-    <nav class="mobile-nav__links">
-      {% for link in section.settings.menu.links %}
+    <div class="mobile-nav__body">
+      {%- for link in section.settings.menu.links -%}
         <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
-        {% for child in link.links %}
-          <a href="{{ child.url }}" class="mobile-nav__link" style="padding-left:1.5rem;font-size:0.875rem;font-weight:500">{{ child.title }}</a>
-        {% endfor %}
-      {% endfor %}
-    </nav>
+        {%- for child in link.links -%}
+          <a href="{{ child.url }}" class="mobile-nav__child">{{ child.title }}</a>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+    <div class="mobile-nav__footer">
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_login_url }}" class="btn btn--outline btn--full" style="margin-bottom:.75rem">Sign In</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="btn btn--dark btn--full">Cart ({{ cart.item_count }})</a>
+    </div>
   </div>
 </div>
 
@@ -103,32 +124,11 @@
   "name": "Header",
   "limit": 1,
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "label": "Logo Width",
-      "min": 80,
-      "max": 300,
-      "step": 10,
-      "unit": "px",
-      "default": 160
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Navigation Menu",
-      "default": "main-menu"
-    }
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 280, "step": 10, "unit": "px", "default": 150 },
+    { "type": "link_list", "id": "menu", "label": "Navigation menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "transparent_on_home", "label": "Transparent header on homepage", "default": true }
   ],
-  "presets": [
-    {
-      "name": "Header"
-    }
-  ]
+  "presets": [{ "name": "Header" }]
 }
 {% endschema %}

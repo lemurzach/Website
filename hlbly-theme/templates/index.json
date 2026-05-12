@@ -1,130 +1,199 @@
 {
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {
-        "show_announcement": true
-      },
-      "blocks": {
-        "announcement-1": {
-          "type": "announcement",
-          "settings": {
-            "text": "Free shipping on all orders over $50 🚀"
-          }
-        }
-      },
-      "block_order": ["announcement-1"]
-    },
-    "hero-banner": {
+    "hero": {
       "type": "hero-banner",
       "settings": {
         "layout": "overlay",
-        "height": "medium",
+        "height": "tall",
         "overlay_opacity": 55,
-        "eyebrow": "New Collection",
-        "heading": "Bold Flavors\nfor Bold People",
-        "subheading": "Discover our handcrafted range of premium food and drink, made with the finest ingredients.",
-        "button_label": "Shop Now",
-        "button_link": "/collections/all",
-        "button_label_2": "Our Story",
-        "button_link_2": "/pages/about"
+        "overlay_dir": "135deg",
+        "text_align": "left",
+        "label": "New Collection",
+        "heading": "Bold Flavours\nfor Bold People",
+        "subheading": "Handcrafted premium food & drink made with real ingredients and zero compromises.",
+        "cta1_label": "Shop Now",
+        "cta1_url": "/collections/all",
+        "cta2_label": "Our Story",
+        "cta2_url": "/pages/about",
+        "show_scroll_indicator": true
       }
+    },
+    "marquee-1": {
+      "type": "marquee-text",
+      "settings": { "style": "", "speed": "" },
+      "blocks": {
+        "m1": { "type": "item", "settings": { "text": "Free Shipping Over $50", "icon": "✦" } },
+        "m2": { "type": "item", "settings": { "text": "100% Natural Ingredients", "icon": "🌿" } },
+        "m3": { "type": "item", "settings": { "text": "Same-Day Dispatch", "icon": "🚀" } },
+        "m4": { "type": "item", "settings": { "text": "5,000+ Happy Customers", "icon": "⭐" } },
+        "m5": { "type": "item", "settings": { "text": "New Flavours Every Month", "icon": "🔥" } }
+      },
+      "block_order": ["m1","m2","m3","m4","m5"]
     },
     "featured-collection-1": {
       "type": "featured-collection",
       "settings": {
         "background": "white",
-        "text_align": "left",
+        "header_align": "left",
         "eyebrow": "Best Sellers",
         "heading": "Customer Favourites",
-        "subheading": "Our most-loved products, trusted by thousands of customers.",
+        "subheading": "Our most-loved products, tried and trusted by thousands.",
         "columns": "4",
-        "products_to_show": 4,
-        "button_label": "View All",
-        "button_link": "/collections/all"
+        "count": 4,
+        "cta_label": "View All"
       }
     },
-    "category-tiles": {
-      "type": "category-tiles",
+    "promo-grid": {
+      "type": "promo-grid",
       "settings": {
-        "background": "light",
-        "text_align": "left",
+        "layout": "2col",
+        "background": "sand",
         "eyebrow": "Explore",
-        "heading": "Shop by Category"
+        "heading": "Shop by Category",
+        "text_align": "left"
       },
       "blocks": {
-        "tile-1": { "type": "tile", "settings": { "title": "Snacks", "count": "12 products" } },
-        "tile-2": { "type": "tile", "settings": { "title": "Drinks", "count": "8 products" } },
-        "tile-3": { "type": "tile", "settings": { "title": "Sauces", "count": "6 products" } },
-        "tile-4": { "type": "tile", "settings": { "title": "Bundles", "count": "4 products" } }
+        "t1": { "type": "tile", "settings": { "title": "Signature Sauces", "eyebrow": "Best Sellers", "cta_label": "Shop Now", "size": "tall" } },
+        "t2": { "type": "tile", "settings": { "title": "Snack Bundles",    "eyebrow": "New In",       "cta_label": "Explore",  "size": "normal" } },
+        "t3": { "type": "tile", "settings": { "title": "Premium Drinks",   "eyebrow": "Hot Right Now","cta_label": "Shop Now", "size": "normal" } }
       },
-      "block_order": ["tile-1", "tile-2", "tile-3", "tile-4"]
+      "block_order": ["t1","t2","t3"]
+    },
+    "featured-product": {
+      "type": "featured-product",
+      "settings": {
+        "image_side": "left",
+        "background": "white",
+        "eyebrow": "Our Hero Product",
+        "show_badges": true,
+        "show_description": true
+      },
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "label": "Vegan",       "style": "vegan"  } },
+        "b2": { "type": "badge", "settings": { "label": "Gluten Free", "style": "gf"     } },
+        "b3": { "type": "badge", "settings": { "label": "New Flavour", "style": "new"    } }
+      },
+      "block_order": ["b1","b2","b3"]
+    },
+    "marquee-2": {
+      "type": "marquee-text",
+      "settings": { "style": "dark", "speed": "slow" },
+      "blocks": {
+        "m1": { "type": "item", "settings": { "text": "Crafted with Passion", "icon": "✦" } },
+        "m2": { "type": "item", "settings": { "text": "Made in Small Batches", "icon": "✦" } },
+        "m3": { "type": "item", "settings": { "text": "No Artificial Anything", "icon": "✦" } },
+        "m4": { "type": "item", "settings": { "text": "Real Ingredients Only", "icon": "✦" } }
+      },
+      "block_order": ["m1","m2","m3","m4"]
     },
     "image-with-text": {
       "type": "image-with-text",
       "settings": {
-        "background": "white",
-        "image_position": "left",
+        "background": "sand",
+        "image_side": "right",
         "eyebrow": "Our Story",
         "heading": "Made with Passion,\nDelivered with Care",
-        "text": "<p>We started HLBLY with one simple belief: food should taste incredible and be made with integrity. No compromises, no shortcuts — just bold, honest flavours.</p>",
-        "button_label": "Learn More",
-        "button_link": "/pages/about",
-        "button_style": "primary"
+        "text": "<p>We started HLBLY with one simple belief — food should be bold, honest, and crafted with integrity. No compromises, no shortcuts, just flavours you'll actually taste.</p>",
+        "cta1_label": "Our Story",
+        "cta1_url": "/pages/about",
+        "cta1_style": "primary",
+        "cta2_label": "Shop All",
+        "cta2_url": "/collections/all"
       },
       "blocks": {
-        "feature-1": { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients", "text": "No artificial additives, ever." } },
-        "feature-2": { "type": "feature", "settings": { "icon": "🚀", "title": "Fast Delivery", "text": "Dispatched same day before 2pm." } },
-        "feature-3": { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging", "text": "100% recyclable and compostable." } }
+        "f1": { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients",   "text": "Zero artificial additives." } },
+        "f2": { "type": "feature", "settings": { "icon": "🚀", "title": "Same-Day Dispatch",     "text": "Order before 2pm."          } },
+        "f3": { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging", "text": "100% recyclable."           } }
       },
-      "block_order": ["feature-1", "feature-2", "feature-3"]
+      "block_order": ["f1","f2","f3"]
     },
-    "testimonials": {
-      "type": "testimonials",
+    "stats": {
+      "type": "stats-section",
       "settings": {
-        "eyebrow": "Reviews",
-        "heading": "Loved by Thousands",
-        "subheading": "Don't just take our word for it."
+        "background": "dark",
+        "eyebrow": "By the Numbers",
+        "heading": "Why Thousands Choose HLBLY"
       },
       "blocks": {
-        "review-1": { "type": "testimonial", "settings": { "rating": 5, "text": "Absolutely love this product. The quality is incredible and delivery was super fast!", "author": "Sarah K.", "location": "London, UK" } },
-        "review-2": { "type": "testimonial", "settings": { "rating": 5, "text": "Best purchase I've made this year. Already ordered three more times!", "author": "Marcus T.", "location": "Manchester, UK" } },
-        "review-3": { "type": "testimonial", "settings": { "rating": 5, "text": "Premium quality, gorgeous packaging, and it tastes amazing. Highly recommend.", "author": "Priya M.", "location": "Birmingham, UK" } }
+        "s1": { "type": "stat", "settings": { "number": "5000", "suffix": "+", "label": "Happy Customers" } },
+        "s2": { "type": "stat", "settings": { "number": "12",   "suffix": "+", "label": "Unique Flavours"  } },
+        "s3": { "type": "stat", "settings": { "number": "4.9",  "suffix": "★", "label": "Average Rating"   } },
+        "s4": { "type": "stat", "settings": { "number": "100",  "suffix": "%", "label": "Natural Ingredients" } }
       },
-      "block_order": ["review-1", "review-2", "review-3"]
+      "block_order": ["s1","s2","s3","s4"]
     },
     "featured-collection-2": {
       "type": "featured-collection",
       "settings": {
         "background": "white",
-        "text_align": "center",
+        "header_align": "center",
         "eyebrow": "New Arrivals",
         "heading": "Just Landed",
         "columns": "4",
-        "products_to_show": 4,
-        "button_label": "Shop New Arrivals",
-        "button_link": "/collections/new-arrivals"
+        "count": 4,
+        "cta_label": "Shop New Arrivals"
       }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "eyebrow": "Reviews",
+        "heading": "Loved by Thousands"
+      },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "rating": 5, "text": "Absolutely incredible — the boldest flavours I've ever tasted. Already on my third order.", "name": "Sarah K.", "location": "London, UK" } },
+        "r2": { "type": "review", "settings": { "rating": 5, "text": "Came in gorgeous packaging and the taste is unreal. My whole family is obsessed.", "name": "Marcus T.", "location": "Manchester, UK" } },
+        "r3": { "type": "review", "settings": { "rating": 5, "text": "Can't believe how fresh and natural everything is. This is my go-to for gifts now.", "name": "Priya M.", "location": "Birmingham, UK" } }
+      },
+      "block_order": ["r1","r2","r3"]
+    },
+    "logo-bar": {
+      "type": "logo-bar",
+      "settings": { "label": "As seen in", "background": "white" },
+      "blocks": {
+        "l1": { "type": "text_item", "settings": { "text": "The Guardian" } },
+        "l2": { "type": "text_item", "settings": { "text": "Bon Appétit" } },
+        "l3": { "type": "text_item", "settings": { "text": "Delicious" } },
+        "l4": { "type": "text_item", "settings": { "text": "BBC Good Food" } },
+        "l5": { "type": "text_item", "settings": { "text": "The Sunday Times" } }
+      },
+      "block_order": ["l1","l2","l3","l4","l5"]
+    },
+    "trust-strip": {
+      "type": "trust-strip",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "🚚", "title": "Free Shipping",       "subtitle": "On orders over $50"      } },
+        "t2": { "type": "item", "settings": { "icon": "🌿", "title": "Natural Ingredients", "subtitle": "No artificial additives" } },
+        "t3": { "type": "item", "settings": { "icon": "↩️", "title": "Easy Returns",        "subtitle": "30-day hassle-free"      } },
+        "t4": { "type": "item", "settings": { "icon": "🔒", "title": "Secure Checkout",     "subtitle": "256-bit SSL"             } }
+      },
+      "block_order": ["t1","t2","t3","t4"]
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
         "style": "dark",
+        "eyebrow": "Stay in the loop",
         "heading": "Join the HLBLY Community",
-        "subheading": "Get exclusive deals, recipes, and early access to new products.",
-        "button_label": "Subscribe",
-        "disclaimer": "No spam. Unsubscribe anytime."
+        "subheading": "Exclusive deals, new flavours and early access — straight to your inbox.",
+        "btn": "Subscribe",
+        "note": "No spam. Unsubscribe anytime."
       }
     }
   },
   "order": [
-    "announcement-bar",
-    "hero-banner",
+    "hero",
+    "marquee-1",
     "featured-collection-1",
-    "category-tiles",
+    "promo-grid",
+    "featured-product",
+    "marquee-2",
     "image-with-text",
-    "testimonials",
+    "stats",
     "featured-collection-2",
+    "testimonials",
+    "logo-bar",
+    "trust-strip",
     "newsletter"
   ]
 }

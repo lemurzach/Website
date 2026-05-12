@@ -1,0 +1,88 @@
+<div class="logo-bar section-pad--sm" style="background:{% if section.settings.background == 'sand' %}var(--c-sand){% elsif section.settings.background == 'dark' %}var(--c-dark){% else %}var(--c-white){% endif %}">
+  <div class="container">
+    {%- if section.settings.label != blank -%}
+      <p class="logo-bar__label" style="{% if section.settings.background == 'dark' %}color:rgba(255,255,255,.3){% endif %}">{{ section.settings.label }}</p>
+    {%- endif -%}
+    <div class="logo-bar__logos">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'logo' -%}
+            {%- if block.settings.image != blank -%}
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+                  <img
+                    src="{{ block.settings.image | image_url: width: 220 }}"
+                    alt="{{ block.settings.image.alt | escape | default: 'Partner logo' }}"
+                    loading="lazy"
+                    class="logo-bar__logo"
+                    style="{% if section.settings.background == 'dark' %}filter:brightness(0) invert(1){% endif %}"
+                    height="28"
+                  >
+                </a>
+              {%- else -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 220 }}"
+                  alt="{{ block.settings.image.alt | escape | default: 'Partner logo' }}"
+                  loading="lazy"
+                  class="logo-bar__logo"
+                  style="{% if section.settings.background == 'dark' %}filter:brightness(0) invert(1){% endif %}"
+                  height="28"
+                  {{ block.shopify_attributes }}
+                >
+              {%- endif -%}
+            {%- elsif block.settings.text != blank -%}
+              <span class="logo-bar__text-item" style="{% if section.settings.background == 'dark' %}color:rgba(255,255,255,.3){% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            {%- endif -%}
+          {%- when 'text_item' -%}
+            <span class="logo-bar__text-item" style="{% if section.settings.background == 'dark' %}color:rgba(255,255,255,.3){% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Logo Bar / Press",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label above logos", "default": "As seen in" },
+    {
+      "type": "select", "id": "background", "label": "Background",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "sand",  "label": "Sand"  },
+        { "value": "dark",  "label": "Dark"  }
+      ],
+      "default": "white"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo Image" },
+        { "type": "text",         "id": "text",  "label": "Text fallback" },
+        { "type": "url",          "id": "link",  "label": "Link (optional)" }
+      ]
+    },
+    {
+      "type": "text_item",
+      "name": "Text Logo",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Publication Name" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Logo Bar",
+    "blocks": [
+      { "type": "text_item", "settings": { "text": "The Guardian" } },
+      { "type": "text_item", "settings": { "text": "Bon Appétit" } },
+      { "type": "text_item", "settings": { "text": "Delicious" } },
+      { "type": "text_item", "settings": { "text": "BBC Good Food" } },
+      { "type": "text_item", "settings": { "text": "The Sunday Times" } }
+    ]
+  }]
+}
+{% endschema %}

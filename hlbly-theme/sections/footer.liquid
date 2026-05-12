@@ -1,82 +1,78 @@
 <footer class="site-footer" role="contentinfo">
   <div class="container">
-    <div class="footer-grid">
+    <div class="footer-top">
 
-      <!-- Brand Column -->
+      <!-- Brand -->
       <div class="footer-brand">
-        <div class="footer-logo">
+        <a href="{{ routes.root_url }}" class="footer-logo">
           {%- if section.settings.logo != blank -%}
-            <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" width="160">
+            <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" height="36" style="filter:brightness(0) invert(1)">
           {%- else -%}
-            <span>{{ shop.name | split: '' | first }}<span style="color:var(--color-primary)">{{ shop.name | slice: 1, 100 }}</span></span>
+            {{- shop.name | slice: 0, 4 -}}<em>{{- shop.name | slice: 4, 100 -}}</em>
           {%- endif -%}
-        </div>
-        {%- if section.settings.brand_description != blank -%}
-          <p class="footer-brand__desc">{{ section.settings.brand_description }}</p>
+        </a>
+        {%- if section.settings.description != blank -%}
+          <p class="footer-brand__desc">{{ section.settings.description }}</p>
         {%- endif -%}
         <div class="footer-social">
-          {%- if section.settings.instagram_url != blank -%}
-            <a href="{{ section.settings.instagram_url }}" class="footer-social__link" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-              </svg>
+          {%- if section.settings.instagram != blank -%}
+            <a href="{{ section.settings.instagram }}" class="fs-link" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.75" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
             </a>
           {%- endif -%}
-          {%- if section.settings.tiktok_url != blank -%}
-            <a href="{{ section.settings.tiktok_url }}" class="footer-social__link" target="_blank" rel="noopener" aria-label="TikTok">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/>
-              </svg>
+          {%- if section.settings.tiktok != blank -%}
+            <a href="{{ section.settings.tiktok }}" class="fs-link" target="_blank" rel="noopener" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
             </a>
           {%- endif -%}
-          {%- if section.settings.facebook_url != blank -%}
-            <a href="{{ section.settings.facebook_url }}" class="footer-social__link" target="_blank" rel="noopener" aria-label="Facebook">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-              </svg>
+          {%- if section.settings.facebook != blank -%}
+            <a href="{{ section.settings.facebook }}" class="fs-link" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.youtube != blank -%}
+            <a href="{{ section.settings.youtube }}" class="fs-link" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45a2.78 2.78 0 00-1.95 1.97A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
             </a>
           {%- endif -%}
         </div>
       </div>
 
       <!-- Link Columns -->
-      {% for block in section.blocks %}
-        {% case block.type %}
-          {% when 'link_column' %}
-            <div class="footer-column">
-              <p class="footer-column__title">{{ block.settings.title }}</p>
-              <ul class="footer-links">
-                {% for link in block.settings.menu.links %}
-                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                {% endfor %}
-              </ul>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'link_col' -%}
+            <div class="footer-col" {{ block.shopify_attributes }}>
+              <p class="footer-col__title">{{ block.settings.title }}</p>
+              <div class="footer-col__links">
+                {%- for link in block.settings.menu.links -%}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {%- endfor -%}
+              </div>
             </div>
-        {% endcase %}
-      {% endfor %}
+        {%- endcase -%}
+      {%- endfor -%}
 
     </div>
   </div>
 
   <div class="footer-bottom">
-    <div class="container" style="width:100%">
-      <div class="footer-bottom" style="border-top:none;padding:0">
+    <div class="container" style="width:100%;display:contents">
+      <div class="footer-bottom" style="border-top:none;padding:0;width:100%">
         <p class="footer-bottom__copy">
           &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
-          {%- if section.settings.show_policy_links -%}
-            &nbsp;&middot;&nbsp;
-            <a href="{{ shop.privacy_policy.url }}" style="color:rgba(255,255,255,0.4)">Privacy Policy</a>
-            &nbsp;&middot;&nbsp;
-            <a href="{{ shop.refund_policy.url }}" style="color:rgba(255,255,255,0.4)">Refund Policy</a>
+          {%- if section.settings.show_policies -%}
+            &nbsp;·&nbsp;<a href="{{ shop.privacy_policy.url }}">Privacy</a>
+            &nbsp;·&nbsp;<a href="{{ shop.refund_policy.url }}">Refunds</a>
+            &nbsp;·&nbsp;<a href="{{ shop.terms_of_service.url }}">Terms</a>
           {%- endif -%}
         </p>
-        <div class="footer-bottom__payments">
-          <div class="payment-icon">VISA</div>
-          <div class="payment-icon">MC</div>
-          <div class="payment-icon">AMEX</div>
-          <div class="payment-icon">PYPL</div>
-          <div class="payment-icon">SHPY</div>
+        <div class="footer-payments">
+          <span class="payment-badge">VISA</span>
+          <span class="payment-badge">MC</span>
+          <span class="payment-badge">AMEX</span>
+          <span class="payment-badge">PAYPAL</span>
+          <span class="payment-badge">SHOPIFY PAY</span>
         </div>
       </div>
     </div>
@@ -88,67 +84,31 @@
   "name": "Footer",
   "limit": 1,
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Footer Logo"
-    },
-    {
-      "type": "textarea",
-      "id": "brand_description",
-      "label": "Brand Description",
-      "default": "Premium quality, delivered to your door."
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "tiktok_url",
-      "label": "TikTok URL"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_policy_links",
-      "label": "Show Policy Links",
-      "default": true
-    }
+    { "type": "image_picker", "id": "logo",        "label": "Footer logo" },
+    { "type": "textarea",     "id": "description", "label": "Brand tagline", "default": "Premium food & drink, crafted with care and delivered to your door." },
+    { "type": "url",          "id": "instagram",   "label": "Instagram URL" },
+    { "type": "url",          "id": "tiktok",      "label": "TikTok URL" },
+    { "type": "url",          "id": "facebook",    "label": "Facebook URL" },
+    { "type": "url",          "id": "youtube",     "label": "YouTube URL" },
+    { "type": "checkbox",     "id": "show_policies","label": "Show policy links", "default": true }
   ],
   "blocks": [
     {
-      "type": "link_column",
+      "type": "link_col",
       "name": "Link Column",
       "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Column Title",
-          "default": "Links"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Menu"
-        }
+        { "type": "text",      "id": "title", "label": "Column title", "default": "Links" },
+        { "type": "link_list", "id": "menu",  "label": "Menu" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Footer",
-      "blocks": [
-        { "type": "link_column", "settings": { "title": "Shop" } },
-        { "type": "link_column", "settings": { "title": "Company" } },
-        { "type": "link_column", "settings": { "title": "Support" } }
-      ]
-    }
-  ]
+  "presets": [{
+    "name": "Footer",
+    "blocks": [
+      { "type": "link_col", "settings": { "title": "Shop" } },
+      { "type": "link_col", "settings": { "title": "Company" } },
+      { "type": "link_col", "settings": { "title": "Support" } }
+    ]
+  }]
 }
 {% endschema %}

@@ -1,0 +1,63 @@
+<div class="marquee-section marquee-section--{{ section.settings.style }}">
+  <div class="marquee-track marquee-track--{{ section.settings.speed }}" aria-hidden="true">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'item' -%}
+          <span class="marquee-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <span>{{ block.settings.icon }}</span>
+            {%- else -%}
+              <svg class="marquee-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            {%- endif -%}
+            {{ block.settings.text }}
+          </span>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee Text Strip",
+  "settings": [
+    {
+      "type": "select", "id": "style", "label": "Style",
+      "options": [
+        { "value": "",     "label": "Brand Red"   },
+        { "value": "dark", "label": "Dark"        },
+        { "value": "sand", "label": "Sand / Warm" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select", "id": "speed", "label": "Scroll Speed",
+      "options": [
+        { "value": "fast",  "label": "Fast"   },
+        { "value": "",      "label": "Normal" },
+        { "value": "slow",  "label": "Slow"   }
+      ],
+      "default": ""
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Marquee Item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping over $50" },
+        { "type": "text", "id": "icon", "label": "Emoji icon (optional)", "default": "✦" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Marquee Text Strip",
+    "blocks": [
+      { "type": "item", "settings": { "text": "Free Shipping Over $50", "icon": "✦" } },
+      { "type": "item", "settings": { "text": "100% Natural Ingredients", "icon": "🌿" } },
+      { "type": "item", "settings": { "text": "Same-Day Dispatch", "icon": "🚀" } },
+      { "type": "item", "settings": { "text": "5,000+ Happy Customers", "icon": "⭐" } },
+      { "type": "item", "settings": { "text": "New Flavours Every Month", "icon": "🔥" } }
+    ]
+  }]
+}
+{% endschema %}

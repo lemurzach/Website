@@ -1,0 +1,66 @@
+<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <div class="sh sh--center" style="margin-bottom:3rem" data-reveal>
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="sh__title">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    <div class="stats-row">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'stat' -%}
+            <div class="stat-card{% if section.settings.background == 'dark' %}" style="background:rgba(255,255,255,.06){% endif %}" data-reveal data-reveal-delay="{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div
+                class="stat-card__num"
+                data-counter="{{ block.settings.number }}"
+                data-suffix="{{ block.settings.suffix }}"
+                data-prefix="{{ block.settings.prefix }}"
+              >{{ block.settings.prefix }}{{ block.settings.number }}{{ block.settings.suffix }}</div>
+              <div class="stat-card__label" style="{% if section.settings.background == 'dark' %}color:rgba(255,255,255,.5){% endif %}">{{ block.settings.label }}</div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stats / Numbers",
+  "settings": [
+    {
+      "type": "select", "id": "background", "label": "Background",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "sand",  "label": "Sand"  },
+        { "value": "dark",  "label": "Dark"  }
+      ],
+      "default": "sand"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "prefix", "label": "Prefix (e.g. £, $)" },
+        { "type": "text", "id": "number", "label": "Number", "default": "5000" },
+        { "type": "text", "id": "suffix", "label": "Suffix (e.g. +, k, %)", "default": "+" },
+        { "type": "text", "id": "label",  "label": "Label",  "default": "Happy Customers" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Stats / Numbers",
+    "blocks": [
+      { "type": "stat", "settings": { "number": "5000", "suffix": "+", "label": "Happy Customers" } },
+      { "type": "stat", "settings": { "number": "12",   "suffix": "+", "label": "Unique Flavours"  } },
+      { "type": "stat", "settings": { "number": "4.9",  "suffix": "★", "label": "Average Rating"   } },
+      { "type": "stat", "settings": { "number": "100",  "suffix": "%", "label": "Natural Ingredients" } }
+    ]
+  }]
+}
+{% endschema %}

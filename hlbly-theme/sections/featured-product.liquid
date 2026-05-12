@@ -1,0 +1,152 @@
+{%- assign fp = all_products[section.settings.product] -%}
+
+<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
+  <div class="container">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sh" data-reveal>
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="sh__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="feat-product{% if section.settings.image_side == 'right' %} feat-product--reverse{% endif %}">
+
+      <div class="feat-product__gallery" data-reveal>
+        <div class="feat-product__main">
+          {%- if fp != blank and fp.featured_image -%}
+            <img
+              src="{{ fp.featured_image | image_url: width: 900 }}"
+              alt="{{ fp.featured_image.alt | escape | default: fp.title }}"
+              loading="lazy"
+              width="900"
+            >
+          {%- elsif section.settings.fallback_image != blank -%}
+            <img
+              src="{{ section.settings.fallback_image | image_url: width: 900 }}"
+              alt="{{ section.settings.fallback_image.alt | escape }}"
+              loading="lazy"
+              width="900"
+            >
+          {%- else -%}
+            {{ 'product-2' | placeholder_svg_tag }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="feat-product__content" data-reveal data-reveal-delay="2">
+
+        {%- if fp != blank -%}
+          {%- if fp.vendor != blank -%}
+            <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--c-primary)">{{ fp.vendor }}</p>
+          {%- endif -%}
+
+          <h3 class="feat-product__title">{{ fp.title }}</h3>
+
+          {%- if section.settings.show_badges -%}
+            <div class="feat-product__attrs">
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'badge' -%}
+                    <span class="badge badge--{{ block.settings.style }}">{{ block.settings.label }}</span>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if fp.description != blank and section.settings.show_description -%}
+            <p class="feat-product__desc">{{ fp.description | strip_html | truncate: 200 }}</p>
+          {%- endif -%}
+
+          <div class="feat-product__price">
+            <span class="price{% if fp.compare_at_price > fp.price %} price--on{% endif %}">{{ fp.price | money }}</span>
+            {%- if fp.compare_at_price > fp.price -%}
+              <span class="price price--was">{{ fp.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+
+          <div class="feat-product__cta">
+            {%- if fp.available -%}
+              <button
+                class="btn btn--primary btn--xl"
+                onclick="addToCart('{{ fp.selected_or_first_available_variant.id }}', 1)"
+              >Add to Cart</button>
+            {%- else -%}
+              <button class="btn btn--dark btn--xl" disabled>Sold Out</button>
+            {%- endif -%}
+            <a href="{{ fp.url }}" class="btn btn--outline btn--xl">View Details</a>
+          </div>
+
+        {%- else -%}
+          <h3 class="feat-product__title">{{ section.settings.fallback_title | default: 'Featured Product' }}</h3>
+          <p class="feat-product__desc">{{ section.settings.fallback_desc | default: 'Select a product in the theme editor.' }}</p>
+          <div class="feat-product__cta">
+            <button class="btn btn--primary btn--xl">Add to Cart</button>
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Product",
+  "settings": [
+    { "type": "product",  "id": "product",     "label": "Product" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image (if no product)" },
+    { "type": "text",     "id": "fallback_title", "label": "Fallback title",    "default": "Our Star Product" },
+    { "type": "textarea", "id": "fallback_desc",  "label": "Fallback description" },
+    {
+      "type": "select", "id": "image_side", "label": "Image side",
+      "options": [
+        { "value": "left",  "label": "Left"  },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select", "id": "background", "label": "Background",
+      "options": [
+        { "value": "white", "label": "White" },
+        { "value": "sand",  "label": "Sand"  },
+        { "value": "dark",  "label": "Dark"  }
+      ],
+      "default": "sand"
+    },
+    { "type": "text",     "id": "eyebrow",      "label": "Section eyebrow", "default": "Our Hero" },
+    { "type": "text",     "id": "heading",      "label": "Section heading" },
+    { "type": "checkbox", "id": "show_badges",  "label": "Show attribute badges", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show product description", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Attribute Badge",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Vegan" },
+        {
+          "type": "select", "id": "style", "label": "Style",
+          "options": [
+            { "value": "custom",  "label": "Neutral"  },
+            { "value": "vegan",   "label": "Green (Vegan)" },
+            { "value": "gf",      "label": "Amber (Gluten Free)" },
+            { "value": "new",     "label": "Dark (New)" },
+            { "value": "sale",    "label": "Red (Sale)" }
+          ],
+          "default": "custom"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Featured Product",
+    "blocks": [
+      { "type": "badge", "settings": { "label": "Vegan",        "style": "vegan"  } },
+      { "type": "badge", "settings": { "label": "Gluten Free",  "style": "gf"     } },
+      { "type": "badge", "settings": { "label": "New Flavour",  "style": "new"    } }
+    ]
+  }]
+}
+{% endschema %}

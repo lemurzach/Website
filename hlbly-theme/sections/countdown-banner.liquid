@@ -1,0 +1,59 @@
+<section class="countdown-banner countdown-banner--{{ section.settings.style }}">
+  <div class="container">
+    {%- if section.settings.label != blank -%}
+      <p class="countdown-banner__label">{{ section.settings.label }}</p>
+    {%- endif -%}
+    <h2 class="countdown-banner__title">{{ section.settings.heading }}</h2>
+
+    <div class="countdown-digits" data-countdown="{{ section.settings.end_date }}">
+      <div class="cd-unit">
+        <div class="cd-num" data-cd-d>00</div>
+        <div class="cd-label">Days</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" data-cd-h>00</div>
+        <div class="cd-label">Hours</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" data-cd-m>00</div>
+        <div class="cd-label">Mins</div>
+      </div>
+      <div class="cd-unit">
+        <div class="cd-num" data-cd-s>00</div>
+        <div class="cd-label">Secs</div>
+      </div>
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="btn btn--outline-w btn--xl">{{ section.settings.cta_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Countdown Banner",
+  "settings": [
+    {
+      "type": "select", "id": "style", "label": "Style",
+      "options": [
+        { "value": "",        "label": "Dark"      },
+        { "value": "primary", "label": "Brand Red" }
+      ],
+      "default": ""
+    },
+    { "type": "text", "id": "label",   "label": "Label",   "default": "Limited Time Offer" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sale Ends In" },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date & time (ISO format)",
+      "info": "Format: YYYY-MM-DDTHH:MM:SS e.g. 2025-12-31T23:59:59",
+      "default": "2025-12-31T23:59:59"
+    },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop the Sale" },
+    { "type": "url",  "id": "cta_url",   "label": "Button link" }
+  ],
+  "presets": [{ "name": "Countdown Banner" }]
+}
+{% endschema %}
