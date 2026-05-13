@@ -1,0 +1,26 @@
+{%- if search.performed and search.results.size > 0 -%}
+  {%- for result in search.results limit: 6 -%}
+    <a href="{{ result.url }}" class="ps-item">
+      {%- if result.image -%}
+        <img src="{{ result.image | image_url: width: 80, height: 80, crop: 'center' }}" alt="{{ result.title | escape }}" width="40" height="40" loading="lazy">
+      {%- else -%}
+        <div class="ps-item__no-img"></div>
+      {%- endif -%}
+      <div class="ps-item__info">
+        <p class="ps-item__title">{{ result.title }}</p>
+        {%- if result.price -%}
+          <p class="ps-item__price">{{ result.price | money }}</p>
+        {%- endif -%}
+      </div>
+    </a>
+  {%- endfor -%}
+{%- elsif search.performed -%}
+  <p class="ps-empty">No results for <em>{{ search.terms | escape }}</em></p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Predictive Search",
+  "limit": 1
+}
+{% endschema %}

@@ -4,11 +4,11 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "show_announcement": true
+        "show": true
       },
       "blocks": {
         "announcement-1": {
-          "type": "announcement",
+          "type": "item",
           "settings": {
             "text": "Free shipping on orders over $50 🚚"
           }

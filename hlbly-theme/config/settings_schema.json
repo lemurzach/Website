@@ -142,6 +142,13 @@
           { "value": "page", "label": "Cart Page" }
         ],
         "default": "drawer"
+      },
+      {
+        "type": "number",
+        "id": "free_ship_threshold",
+        "label": "Free shipping threshold (cents)",
+        "default": 5000,
+        "info": "Enter amount in cents (e.g. 5000 = $50.00)"
       }
     ]
   },
