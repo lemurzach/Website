@@ -1,6 +1,9 @@
 {%- assign fp = all_products[section.settings.product] -%}
+{%- assign bg = '' -%}
+{%- if section.settings.background == 'sand' -%}{%- assign bg = 'var(--c-sand)' -%}{%- endif -%}
+{%- if section.settings.background == 'dark' -%}{%- assign bg = 'var(--c-dark)' -%}{%- endif -%}
 
-<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
+<section class="section-pad" style="{% if bg != '' %}background:{{ bg }};{% endif %}{% if section.settings.background == 'dark' %}color:var(--c-white);{% endif %}">
   <div class="container">
 
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
@@ -46,10 +49,9 @@
           {%- if section.settings.show_badges -%}
             <div class="feat-product__attrs">
               {%- for block in section.blocks -%}
-                {%- case block.type -%}
-                  {%- when 'badge' -%}
-                    <span class="badge badge--{{ block.settings.style }}">{{ block.settings.label }}</span>
-                {%- endcase -%}
+                {%- if block.type == 'badge' -%}
+                  <span class="badge badge--{{ block.settings.style }}">{{ block.settings.label }}</span>
+                {%- endif -%}
               {%- endfor -%}
             </div>
           {%- endif -%}
@@ -80,6 +82,13 @@
         {%- else -%}
           <h3 class="feat-product__title">{{ section.settings.fallback_title | default: 'Featured Product' }}</h3>
           <p class="feat-product__desc">{{ section.settings.fallback_desc | default: 'Select a product in the theme editor.' }}</p>
+          <div class="feat-product__attrs">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'badge' -%}
+                <span class="badge badge--{{ block.settings.style }}">{{ block.settings.label }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
           <div class="feat-product__cta">
             <button class="btn btn--primary btn--xl">Add to Cart</button>
           </div>
@@ -94,10 +103,10 @@
 {
   "name": "Featured Product",
   "settings": [
-    { "type": "product",  "id": "product",     "label": "Product" },
-    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image (if no product)" },
-    { "type": "text",     "id": "fallback_title", "label": "Fallback title",    "default": "Our Star Product" },
-    { "type": "textarea", "id": "fallback_desc",  "label": "Fallback description" },
+    { "type": "product",      "id": "product",        "label": "Product" },
+    { "type": "image_picker", "id": "fallback_image",  "label": "Fallback image" },
+    { "type": "text",         "id": "fallback_title",  "label": "Fallback title",   "default": "Our Star Product" },
+    { "type": "textarea",     "id": "fallback_desc",   "label": "Fallback description" },
     {
       "type": "select", "id": "image_side", "label": "Image side",
       "options": [
@@ -115,10 +124,10 @@
       ],
       "default": "sand"
     },
-    { "type": "text",     "id": "eyebrow",      "label": "Section eyebrow", "default": "Our Hero" },
-    { "type": "text",     "id": "heading",      "label": "Section heading" },
-    { "type": "checkbox", "id": "show_badges",  "label": "Show attribute badges", "default": true },
-    { "type": "checkbox", "id": "show_description", "label": "Show product description", "default": true }
+    { "type": "text",     "id": "eyebrow",          "label": "Eyebrow",             "default": "Our Hero" },
+    { "type": "text",     "id": "heading",          "label": "Heading" },
+    { "type": "checkbox", "id": "show_badges",      "label": "Show badges",         "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show description",    "default": true }
   ],
   "blocks": [
     {
@@ -129,11 +138,11 @@
         {
           "type": "select", "id": "style", "label": "Style",
           "options": [
-            { "value": "custom",  "label": "Neutral"  },
-            { "value": "vegan",   "label": "Green (Vegan)" },
-            { "value": "gf",      "label": "Amber (Gluten Free)" },
-            { "value": "new",     "label": "Dark (New)" },
-            { "value": "sale",    "label": "Red (Sale)" }
+            { "value": "custom", "label": "Neutral"          },
+            { "value": "vegan",  "label": "Green (Vegan)"    },
+            { "value": "gf",     "label": "Amber (GF)"       },
+            { "value": "new",    "label": "Dark (New)"       },
+            { "value": "sale",   "label": "Red (Sale)"       }
           ],
           "default": "custom"
         }
@@ -143,9 +152,9 @@
   "presets": [{
     "name": "Featured Product",
     "blocks": [
-      { "type": "badge", "settings": { "label": "Vegan",        "style": "vegan"  } },
-      { "type": "badge", "settings": { "label": "Gluten Free",  "style": "gf"     } },
-      { "type": "badge", "settings": { "label": "New Flavour",  "style": "new"    } }
+      { "type": "badge", "settings": { "label": "Vegan",       "style": "vegan" } },
+      { "type": "badge", "settings": { "label": "Gluten Free", "style": "gf"    } },
+      { "type": "badge", "settings": { "label": "New Flavour", "style": "new"   } }
     ]
   }]
 }

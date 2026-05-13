@@ -1,16 +1,23 @@
 {%- assign coll = collections[section.settings.collection] -%}
+{%- assign bg = '' -%}
+{%- if section.settings.background == 'sand' -%}{%- assign bg = 'var(--c-sand)' -%}{%- endif -%}
+{%- if section.settings.background == 'dark' -%}{%- assign bg = 'var(--c-dark)' -%}{%- endif -%}
 
-<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
+<section class="section-pad fc-section" style="{% if bg != '' %}background:{{ bg }};{% endif %}{% if section.settings.background == 'dark' %}color:var(--c-white);{% endif %}">
   <div class="container">
 
     <div class="sh{% if section.settings.header_align == 'center' %} sh--center{% endif %}" data-reveal style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
       <div>
-        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
         <h2 class="sh__title" style="margin-bottom:0">{{ section.settings.heading }}</h2>
-        {%- if section.settings.subheading != blank -%}<p class="sh__sub" style="margin-top:.625rem">{{ section.settings.subheading }}</p>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sh__sub" style="margin-top:.625rem">{{ section.settings.subheading }}</p>
+        {%- endif -%}
       </div>
       {%- if section.settings.cta_label != blank -%}
-        <a href="{{ coll.url | default: section.settings.cta_url }}" class="btn btn--outline{% if section.settings.background == 'dark' %}-w{% endif %}" style="flex-shrink:0">
+        <a href="{{ coll.url | default: '#' }}" class="btn btn--outline{% if section.settings.background == 'dark' %}-w{% endif %}" style="flex-shrink:0">
           {{ section.settings.cta_label }}
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -34,12 +41,6 @@
         {%- endfor -%}
       {%- endfor -%}
     </div>
-
-    {%- if section.settings.cta_label_bottom != blank -%}
-      <div style="text-align:center;margin-top:2.5rem" data-reveal>
-        <a href="{{ coll.url | default: section.settings.cta_url }}" class="btn btn--primary btn--lg">{{ section.settings.cta_label_bottom }}</a>
-      </div>
-    {%- endif -%}
 
   </div>
 </section>
@@ -76,9 +77,7 @@
       "default": "4"
     },
     { "type": "range", "id": "count", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
-    { "type": "text", "id": "cta_label",        "label": "Header CTA label",  "default": "View All" },
-    { "type": "url",  "id": "cta_url",          "label": "CTA URL (fallback)" },
-    { "type": "text", "id": "cta_label_bottom", "label": "Bottom CTA label (optional)" }
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "View All" }
   ],
   "presets": [{ "name": "Featured Collection" }]
 }

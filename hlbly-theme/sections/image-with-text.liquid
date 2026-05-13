@@ -1,4 +1,8 @@
-<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark);color:var(--c-white){% endif %}">
+{%- assign bg = '' -%}
+{%- if section.settings.background == 'sand' -%}{%- assign bg = 'var(--c-sand)' -%}{%- endif -%}
+{%- if section.settings.background == 'dark' -%}{%- assign bg = 'var(--c-dark)' -%}{%- endif -%}
+
+<section class="section-pad" style="{% if bg != '' %}background:{{ bg }};{% endif %}{% if section.settings.background == 'dark' %}color:var(--c-white);{% endif %}">
   <div class="container">
     <div class="iwt{% if section.settings.image_side == 'right' %} iwt--reverse{% endif %}">
 
@@ -27,18 +31,17 @@
         {%- if section.blocks.size > 0 -%}
           <div class="iwt__features">
             {%- for block in section.blocks -%}
-              {%- case block.type -%}
-                {%- when 'feature' -%}
-                  <div class="iwt__feat" {{ block.shopify_attributes }}>
-                    <span class="iwt__feat-icon">{{ block.settings.icon }}</span>
-                    <div>
-                      <p class="iwt__feat-title">{{ block.settings.title }}</p>
-                      {%- if block.settings.text != blank -%}
-                        <p class="iwt__feat-sub">{{ block.settings.text }}</p>
-                      {%- endif -%}
-                    </div>
+              {%- if block.type == 'feature' -%}
+                <div class="iwt__feat" {{ block.shopify_attributes }}>
+                  <span class="iwt__feat-icon">{{ block.settings.icon }}</span>
+                  <div>
+                    <p class="iwt__feat-title">{{ block.settings.title }}</p>
+                    {%- if block.settings.text != blank -%}
+                      <p class="iwt__feat-sub">{{ block.settings.text }}</p>
+                    {%- endif -%}
                   </div>
-              {%- endcase -%}
+                </div>
+              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
@@ -48,7 +51,7 @@
             <a href="{{ section.settings.cta1_url }}" class="btn btn--{{ section.settings.cta1_style }} btn--lg">{{ section.settings.cta1_label }}</a>
           {%- endif -%}
           {%- if section.settings.cta2_label != blank -%}
-            <a href="{{ section.settings.cta2_url }}" class="btn btn--outline{% if section.settings.background == 'dark' %}-w{% endif %} btn--lg">{{ section.settings.cta2_label }}</a>
+            <a href="{{ section.settings.cta2_url }}" class="btn btn--outline btn--lg">{{ section.settings.cta2_label }}</a>
           {%- endif -%}
         </div>
       </div>
@@ -64,7 +67,7 @@
     {
       "type": "select", "id": "background", "label": "Background",
       "options": [
-        { "value": "white", "label": "White"      },
+        { "value": "white", "label": "White"       },
         { "value": "sand",  "label": "Sand / Warm" },
         { "value": "dark",  "label": "Dark"        }
       ],
@@ -78,10 +81,10 @@
       ],
       "default": "left"
     },
-    { "type": "image_picker", "id": "image",    "label": "Image" },
-    { "type": "text",         "id": "eyebrow",  "label": "Eyebrow" },
-    { "type": "text",         "id": "heading",  "label": "Heading", "default": "Why HLBLY?" },
-    { "type": "richtext",     "id": "text",     "label": "Body text", "default": "<p>We craft every product with real ingredients and bold flavours you can taste.</p>" },
+    { "type": "image_picker", "id": "image",      "label": "Image" },
+    { "type": "text",         "id": "eyebrow",    "label": "Eyebrow" },
+    { "type": "text",         "id": "heading",    "label": "Heading",   "default": "Why HLBLY?" },
+    { "type": "richtext",     "id": "text",       "label": "Body text", "default": "<p>We craft every product with real ingredients and bold flavours you can taste.</p>" },
     { "type": "text",         "id": "cta1_label", "label": "Button 1 label" },
     { "type": "url",          "id": "cta1_url",   "label": "Button 1 link" },
     {
@@ -100,18 +103,18 @@
       "type": "feature",
       "name": "Feature Row",
       "settings": [
-        { "type": "text", "id": "icon",  "label": "Emoji icon",   "default": "✓"               },
-        { "type": "text", "id": "title", "label": "Title",         "default": "Feature title"   },
-        { "type": "text", "id": "text",  "label": "Description",   "default": "Brief description." }
+        { "type": "text", "id": "icon",  "label": "Emoji icon",  "default": "✓"                },
+        { "type": "text", "id": "title", "label": "Title",        "default": "Feature title"   },
+        { "type": "text", "id": "text",  "label": "Description",  "default": "Brief description." }
       ]
     }
   ],
   "presets": [{
     "name": "Image with Text",
     "blocks": [
-      { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients",  "text": "Zero artificial additives." } },
-      { "type": "feature", "settings": { "icon": "🚀", "title": "Same-Day Dispatch",    "text": "Order before 2pm."          } },
-      { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging","text": "100% recyclable materials."  } }
+      { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients",   "text": "Zero artificial additives." } },
+      { "type": "feature", "settings": { "icon": "🚀", "title": "Same-Day Dispatch",     "text": "Order before 2pm."          } },
+      { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging", "text": "100% recyclable materials." } }
     ]
   }]
 }

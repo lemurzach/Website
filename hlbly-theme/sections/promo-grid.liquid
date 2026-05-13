@@ -1,45 +1,52 @@
-<section class="section-pad{% if section.settings.background == 'sand' %}" style="background:var(--c-sand){% elsif section.settings.background == 'dark' %}" style="background:var(--c-dark){% endif %}">
-  <div class="container{% if section.settings.full_width %}-lg{% endif %}">
+{%- assign bg = '' -%}
+{%- if section.settings.background == 'sand' -%}{%- assign bg = 'var(--c-sand)' -%}{%- endif -%}
+{%- if section.settings.background == 'dark' -%}{%- assign bg = 'var(--c-dark)' -%}{%- endif -%}
+
+<section class="section-pad" style="{% if bg != '' %}background:{{ bg }};{% endif %}">
+  <div class="container">
 
     {%- if section.settings.heading != blank -%}
       <div class="sh{% if section.settings.text_align == 'center' %} sh--center{% endif %}" data-reveal>
-        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
         <h2 class="sh__title">{{ section.settings.heading }}</h2>
-        {%- if section.settings.subheading != blank -%}<p class="sh__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sh__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
     <div class="promo-grid{% if section.settings.layout == '3col' %} promo-grid--3{% endif %}">
       {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'tile' -%}
-            {%- assign tile_cls = 'promo-tile' -%}
-            {%- if block.settings.size == 'tall' -%}{%- assign tile_cls = tile_cls | append: ' promo-tile--tall' -%}{%- endif -%}
-            {%- if block.settings.size == 'wide' -%}{%- assign tile_cls = tile_cls | append: ' promo-tile--wide' -%}{%- endif -%}
+        {%- if block.type == 'tile' -%}
+          {%- assign tile_cls = 'promo-tile' -%}
+          {%- if block.settings.size == 'tall' -%}{%- assign tile_cls = tile_cls | append: ' promo-tile--tall' -%}{%- endif -%}
+          {%- if block.settings.size == 'wide' -%}{%- assign tile_cls = tile_cls | append: ' promo-tile--wide' -%}{%- endif -%}
 
-            <a href="{{ block.settings.link | default: '#' }}" class="{{ tile_cls }}" {{ block.shopify_attributes }}>
-              <div class="promo-tile__bg">
-                {%- if block.settings.image != blank -%}
-                  <img
-                    src="{{ block.settings.image | image_url: width: 900 }}"
-                    alt="{{ block.settings.title }}"
-                    loading="lazy"
-                    width="900" height="600"
-                  >
-                {%- endif -%}
-              </div>
-              <div class="promo-tile__overlay"></div>
-              <div class="promo-tile__content">
-                {%- if block.settings.eyebrow != blank -%}
-                  <p class="promo-tile__eyebrow">{{ block.settings.eyebrow }}</p>
-                {%- endif -%}
-                <h3 class="promo-tile__title">{{ block.settings.title }}</h3>
-                {%- if block.settings.cta_label != blank -%}
-                  <span class="btn btn--ghost btn--sm">{{ block.settings.cta_label }}</span>
-                {%- endif -%}
-              </div>
-            </a>
-        {%- endcase -%}
+          <a href="{{ block.settings.link | default: '#' }}" class="{{ tile_cls }}" {{ block.shopify_attributes }}>
+            <div class="promo-tile__bg">
+              {%- if block.settings.image != blank -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 900 }}"
+                  alt="{{ block.settings.title }}"
+                  loading="lazy"
+                  width="900" height="600"
+                >
+              {%- endif -%}
+            </div>
+            <div class="promo-tile__overlay"></div>
+            <div class="promo-tile__content">
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="promo-tile__eyebrow">{{ block.settings.eyebrow }}</p>
+              {%- endif -%}
+              <h3 class="promo-tile__title">{{ block.settings.title }}</h3>
+              {%- if block.settings.cta_label != blank -%}
+                <span class="btn btn--ghost btn--sm">{{ block.settings.cta_label }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endif -%}
       {%- endfor -%}
     </div>
 
@@ -51,7 +58,7 @@
   "name": "Promo Grid",
   "settings": [
     {
-      "type": "select", "id": "layout", "label": "Grid Layout",
+      "type": "select", "id": "layout", "label": "Grid layout",
       "options": [
         { "value": "2col", "label": "2 columns" },
         { "value": "3col", "label": "3 columns" }
@@ -59,20 +66,19 @@
       "default": "2col"
     },
     {
-      "type": "select", "id": "background", "label": "Section Background",
+      "type": "select", "id": "background", "label": "Background",
       "options": [
-        { "value": "white", "label": "White" },
+        { "value": "white", "label": "White"      },
         { "value": "sand",  "label": "Sand / Warm" },
-        { "value": "dark",  "label": "Dark" }
+        { "value": "dark",  "label": "Dark"        }
       ],
       "default": "white"
     },
-    { "type": "checkbox", "id": "full_width", "label": "Wider container", "default": false },
-    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow" },
-    { "type": "text",     "id": "heading",    "label": "Heading" },
-    { "type": "text",     "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "eyebrow",    "label": "Eyebrow" },
+    { "type": "text", "id": "heading",    "label": "Heading" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
     {
-      "type": "select", "id": "text_align", "label": "Header Alignment",
+      "type": "select", "id": "text_align", "label": "Header alignment",
       "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }],
       "default": "left"
     }
@@ -84,17 +90,17 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         {
-          "type": "select", "id": "size", "label": "Tile Size",
+          "type": "select", "id": "size", "label": "Tile size",
           "options": [
-            { "value": "normal", "label": "Normal" },
-            { "value": "tall",   "label": "Tall (spans 2 rows)" },
-            { "value": "wide",   "label": "Wide (spans 2 cols)" }
+            { "value": "normal", "label": "Normal"           },
+            { "value": "tall",   "label": "Tall (2 rows)"    },
+            { "value": "wide",   "label": "Wide (2 cols)"    }
           ],
           "default": "normal"
         },
         { "type": "text", "id": "eyebrow",   "label": "Eyebrow" },
         { "type": "text", "id": "title",     "label": "Title",     "default": "Collection Name" },
-        { "type": "text", "id": "cta_label", "label": "CTA Label", "default": "Shop Now" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop Now" },
         { "type": "url",  "id": "link",      "label": "Link" }
       ]
     }
@@ -102,9 +108,9 @@
   "presets": [{
     "name": "Promo Grid",
     "blocks": [
-      { "type": "tile", "settings": { "title": "Signature Sauces", "eyebrow": "Best Sellers", "cta_label": "Shop Now", "size": "tall" } },
-      { "type": "tile", "settings": { "title": "Snack Bundles",    "eyebrow": "New",          "cta_label": "Explore"  } },
-      { "type": "tile", "settings": { "title": "Premium Drinks",   "eyebrow": "New In",       "cta_label": "Shop Now" } }
+      { "type": "tile", "settings": { "title": "Signature Sauces", "eyebrow": "Best Sellers", "cta_label": "Shop Now", "size": "tall"   } },
+      { "type": "tile", "settings": { "title": "Snack Bundles",    "eyebrow": "New",          "cta_label": "Explore"                    } },
+      { "type": "tile", "settings": { "title": "Premium Drinks",   "eyebrow": "New In",       "cta_label": "Shop Now"                   } }
     ]
   }]
 }
