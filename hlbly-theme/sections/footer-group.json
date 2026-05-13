@@ -4,24 +4,24 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "brand_description": "Premium quality food & drink, delivered to your door.",
-        "show_policy_links": true
+        "description": "Premium quality food & drink, delivered to your door.",
+        "show_policies": true
       },
       "blocks": {
         "col-shop": {
-          "type": "link_column",
+          "type": "link_col",
           "settings": {
             "title": "Shop"
           }
         },
         "col-company": {
-          "type": "link_column",
+          "type": "link_col",
           "settings": {
             "title": "Company"
           }
         },
         "col-support": {
-          "type": "link_column",
+          "type": "link_col",
           "settings": {
             "title": "Support"
           }
