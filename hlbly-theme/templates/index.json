@@ -9,8 +9,8 @@
         "overlay_dir": "135deg",
         "text_align": "left",
         "label": "New Collection",
-        "heading": "Bold Flavours\nfor Bold People",
-        "subheading": "Handcrafted premium food & drink made with real ingredients and zero compromises.",
+        "heading": "Bold Flavours for Bold People",
+        "subheading": "Handcrafted premium food and drink made with real ingredients and zero compromises.",
         "cta1_label": "Shop Now",
         "cta1_url": "/collections/all",
         "cta2_label": "Our Story",
@@ -20,15 +20,7 @@
     },
     "marquee-1": {
       "type": "marquee-text",
-      "settings": { "style": "", "speed": "" },
-      "blocks": {
-        "m1": { "type": "item", "settings": { "text": "Free Shipping Over $50", "icon": "✦" } },
-        "m2": { "type": "item", "settings": { "text": "100% Natural Ingredients", "icon": "🌿" } },
-        "m3": { "type": "item", "settings": { "text": "Same-Day Dispatch", "icon": "🚀" } },
-        "m4": { "type": "item", "settings": { "text": "5,000+ Happy Customers", "icon": "⭐" } },
-        "m5": { "type": "item", "settings": { "text": "New Flavours Every Month", "icon": "🔥" } }
-      },
-      "block_order": ["m1","m2","m3","m4","m5"]
+      "settings": { "style": "", "speed": "" }
     },
     "featured-collection-1": {
       "type": "featured-collection",
@@ -51,13 +43,7 @@
         "eyebrow": "Explore",
         "heading": "Shop by Category",
         "text_align": "left"
-      },
-      "blocks": {
-        "t1": { "type": "tile", "settings": { "title": "Signature Sauces", "eyebrow": "Best Sellers", "cta_label": "Shop Now", "size": "tall" } },
-        "t2": { "type": "tile", "settings": { "title": "Snack Bundles",    "eyebrow": "New In",       "cta_label": "Explore",  "size": "normal" } },
-        "t3": { "type": "tile", "settings": { "title": "Premium Drinks",   "eyebrow": "Hot Right Now","cta_label": "Shop Now", "size": "normal" } }
-      },
-      "block_order": ["t1","t2","t3"]
+      }
     },
     "featured-product": {
       "type": "featured-product",
@@ -67,24 +53,11 @@
         "eyebrow": "Our Hero Product",
         "show_badges": true,
         "show_description": true
-      },
-      "blocks": {
-        "b1": { "type": "badge", "settings": { "label": "Vegan",       "style": "vegan"  } },
-        "b2": { "type": "badge", "settings": { "label": "Gluten Free", "style": "gf"     } },
-        "b3": { "type": "badge", "settings": { "label": "New Flavour", "style": "new"    } }
-      },
-      "block_order": ["b1","b2","b3"]
+      }
     },
     "marquee-2": {
       "type": "marquee-text",
-      "settings": { "style": "dark", "speed": "slow" },
-      "blocks": {
-        "m1": { "type": "item", "settings": { "text": "Crafted with Passion", "icon": "✦" } },
-        "m2": { "type": "item", "settings": { "text": "Made in Small Batches", "icon": "✦" } },
-        "m3": { "type": "item", "settings": { "text": "No Artificial Anything", "icon": "✦" } },
-        "m4": { "type": "item", "settings": { "text": "Real Ingredients Only", "icon": "✦" } }
-      },
-      "block_order": ["m1","m2","m3","m4"]
+      "settings": { "style": "dark", "speed": "slow" }
     },
     "image-with-text": {
       "type": "image-with-text",
@@ -92,20 +65,14 @@
         "background": "sand",
         "image_side": "right",
         "eyebrow": "Our Story",
-        "heading": "Made with Passion,\nDelivered with Care",
-        "text": "<p>We started HLBLY with one simple belief — food should be bold, honest, and crafted with integrity. No compromises, no shortcuts, just flavours you'll actually taste.</p>",
+        "heading": "Made with Passion, Delivered with Care",
+        "text": "<p>We started HLBLY with one simple belief — food should be bold, honest, and crafted with integrity. No compromises, no shortcuts, just flavours you will actually taste.</p>",
         "cta1_label": "Our Story",
         "cta1_url": "/pages/about",
         "cta1_style": "primary",
         "cta2_label": "Shop All",
         "cta2_url": "/collections/all"
-      },
-      "blocks": {
-        "f1": { "type": "feature", "settings": { "icon": "🌿", "title": "Natural Ingredients",   "text": "Zero artificial additives." } },
-        "f2": { "type": "feature", "settings": { "icon": "🚀", "title": "Same-Day Dispatch",     "text": "Order before 2pm."          } },
-        "f3": { "type": "feature", "settings": { "icon": "♻️", "title": "Sustainable Packaging", "text": "100% recyclable."           } }
-      },
-      "block_order": ["f1","f2","f3"]
+      }
     },
     "stats": {
       "type": "stats-section",
@@ -113,14 +80,7 @@
         "background": "dark",
         "eyebrow": "By the Numbers",
         "heading": "Why Thousands Choose HLBLY"
-      },
-      "blocks": {
-        "s1": { "type": "stat", "settings": { "number": "5000", "suffix": "+", "label": "Happy Customers" } },
-        "s2": { "type": "stat", "settings": { "number": "12",   "suffix": "+", "label": "Unique Flavours"  } },
-        "s3": { "type": "stat", "settings": { "number": "4.9",  "suffix": "★", "label": "Average Rating"   } },
-        "s4": { "type": "stat", "settings": { "number": "100",  "suffix": "%", "label": "Natural Ingredients" } }
-      },
-      "block_order": ["s1","s2","s3","s4"]
+      }
     },
     "featured-collection-2": {
       "type": "featured-collection",
@@ -139,35 +99,15 @@
       "settings": {
         "eyebrow": "Reviews",
         "heading": "Loved by Thousands"
-      },
-      "blocks": {
-        "r1": { "type": "review", "settings": { "rating": 5, "text": "Absolutely incredible — the boldest flavours I've ever tasted. Already on my third order.", "name": "Sarah K.", "location": "London, UK" } },
-        "r2": { "type": "review", "settings": { "rating": 5, "text": "Came in gorgeous packaging and the taste is unreal. My whole family is obsessed.", "name": "Marcus T.", "location": "Manchester, UK" } },
-        "r3": { "type": "review", "settings": { "rating": 5, "text": "Can't believe how fresh and natural everything is. This is my go-to for gifts now.", "name": "Priya M.", "location": "Birmingham, UK" } }
-      },
-      "block_order": ["r1","r2","r3"]
+      }
     },
     "logo-bar": {
       "type": "logo-bar",
-      "settings": { "label": "As seen in", "background": "white" },
-      "blocks": {
-        "l1": { "type": "text_item", "settings": { "text": "The Guardian" } },
-        "l2": { "type": "text_item", "settings": { "text": "Bon Appétit" } },
-        "l3": { "type": "text_item", "settings": { "text": "Delicious" } },
-        "l4": { "type": "text_item", "settings": { "text": "BBC Good Food" } },
-        "l5": { "type": "text_item", "settings": { "text": "The Sunday Times" } }
-      },
-      "block_order": ["l1","l2","l3","l4","l5"]
+      "settings": { "label": "As seen in", "background": "white" }
     },
     "trust-strip": {
       "type": "trust-strip",
-      "blocks": {
-        "t1": { "type": "item", "settings": { "icon": "🚚", "title": "Free Shipping",       "subtitle": "On orders over $50"      } },
-        "t2": { "type": "item", "settings": { "icon": "🌿", "title": "Natural Ingredients", "subtitle": "No artificial additives" } },
-        "t3": { "type": "item", "settings": { "icon": "↩️", "title": "Easy Returns",        "subtitle": "30-day hassle-free"      } },
-        "t4": { "type": "item", "settings": { "icon": "🔒", "title": "Secure Checkout",     "subtitle": "256-bit SSL"             } }
-      },
-      "block_order": ["t1","t2","t3","t4"]
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",

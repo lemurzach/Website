@@ -1,8 +1,8 @@
 <div class="marquee-section marquee-section--{{ section.settings.style }}">
   <div class="marquee-track marquee-track--{{ section.settings.speed }}" aria-hidden="true">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'item' -%}
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'item' -%}
           <span class="marquee-item" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
               <span>{{ block.settings.icon }}</span>
@@ -11,8 +11,15 @@
             {%- endif -%}
             {{ block.settings.text }}
           </span>
-      {%- endcase -%}
-    {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <span class="marquee-item"><span>✦</span> Free Shipping Over $50</span>
+      <span class="marquee-item"><span>🌿</span> 100% Natural Ingredients</span>
+      <span class="marquee-item"><span>🚀</span> Same-Day Dispatch</span>
+      <span class="marquee-item"><span>⭐</span> 5,000+ Happy Customers</span>
+      <span class="marquee-item"><span>🔥</span> New Flavours Every Month</span>
+    {%- endif -%}
   </div>
 </div>
 
@@ -32,9 +39,9 @@
     {
       "type": "select", "id": "speed", "label": "Scroll Speed",
       "options": [
-        { "value": "fast",  "label": "Fast"   },
-        { "value": "",      "label": "Normal" },
-        { "value": "slow",  "label": "Slow"   }
+        { "value": "fast", "label": "Fast"   },
+        { "value": "",     "label": "Normal" },
+        { "value": "slow", "label": "Slow"   }
       ],
       "default": ""
     }
@@ -52,11 +59,11 @@
   "presets": [{
     "name": "Marquee Text Strip",
     "blocks": [
-      { "type": "item", "settings": { "text": "Free Shipping Over $50", "icon": "✦" } },
-      { "type": "item", "settings": { "text": "100% Natural Ingredients", "icon": "🌿" } },
-      { "type": "item", "settings": { "text": "Same-Day Dispatch", "icon": "🚀" } },
-      { "type": "item", "settings": { "text": "5,000+ Happy Customers", "icon": "⭐" } },
-      { "type": "item", "settings": { "text": "New Flavours Every Month", "icon": "🔥" } }
+      { "type": "item", "settings": { "text": "Free Shipping Over $50",    "icon": "✦"  } },
+      { "type": "item", "settings": { "text": "100% Natural Ingredients",  "icon": "🌿" } },
+      { "type": "item", "settings": { "text": "Same-Day Dispatch",         "icon": "🚀" } },
+      { "type": "item", "settings": { "text": "5,000+ Happy Customers",    "icon": "⭐" } },
+      { "type": "item", "settings": { "text": "New Flavours Every Month",  "icon": "🔥" } }
     ]
   }]
 }
