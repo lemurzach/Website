@@ -18,6 +18,7 @@
     {%- endif -%}
 
     <div class="promo-grid{% if section.settings.layout == '3col' %} promo-grid--3{% endif %}">
+      {%- if section.blocks.size > 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'tile' -%}
           {%- assign tile_cls = 'promo-tile' -%}
@@ -48,6 +49,11 @@
           </a>
         {%- endif -%}
       {%- endfor -%}
+      {%- else -%}
+        <a href="/collections/all" class="promo-tile promo-tile--tall"><div class="promo-tile__bg"></div><div class="promo-tile__overlay"></div><div class="promo-tile__content"><p class="promo-tile__eyebrow">Best Sellers</p><h3 class="promo-tile__title">Signature Sauces</h3><span class="btn btn--ghost btn--sm">Shop Now</span></div></a>
+        <a href="/collections/all" class="promo-tile"><div class="promo-tile__bg"></div><div class="promo-tile__overlay"></div><div class="promo-tile__content"><p class="promo-tile__eyebrow">New In</p><h3 class="promo-tile__title">Snack Bundles</h3><span class="btn btn--ghost btn--sm">Explore</span></div></a>
+        <a href="/collections/all" class="promo-tile"><div class="promo-tile__bg"></div><div class="promo-tile__overlay"></div><div class="promo-tile__content"><p class="promo-tile__eyebrow">Hot Right Now</p><h3 class="promo-tile__title">Premium Drinks</h3><span class="btn btn--ghost btn--sm">Shop Now</span></div></a>
+      {%- endif -%}
     </div>
 
   </div>
