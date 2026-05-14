@@ -1,17 +1,8 @@
-{%- liquid
-  assign hero_cls = 'hero'
-  case section.settings.height
-    when 'short'
-      assign hero_cls = hero_cls | append: ' hero--short'
-    when 'full'
-      assign hero_cls = hero_cls | append: ' hero--full'
-    when 'medium'
-      assign hero_cls = hero_cls | append: ' hero--medium'
-  endcase
-  if section.settings.layout == 'split'
-    assign hero_cls = hero_cls | append: ' hero--split'
-  endif
--%}
+{%- assign hero_cls = 'hero' -%}
+{%- if section.settings.height == 'short' -%}{%- assign hero_cls = hero_cls | append: ' hero--short' -%}{%- endif -%}
+{%- if section.settings.height == 'full' -%}{%- assign hero_cls = hero_cls | append: ' hero--full' -%}{%- endif -%}
+{%- if section.settings.height == 'medium' -%}{%- assign hero_cls = hero_cls | append: ' hero--medium' -%}{%- endif -%}
+{%- if section.settings.layout == 'split' -%}{%- assign hero_cls = hero_cls | append: ' hero--split' -%}{%- endif -%}
 
 {% if section.settings.layout == 'split' %}
   <!-- ─ Split Layout ─ -->
@@ -83,7 +74,9 @@
         {%- if section.settings.subheading != blank -%}
           <p class="hero__sub">{{ section.settings.subheading }}</p>
         {%- endif -%}
-        <div class="hero__ctas" style="justify-content:{{ section.settings.text_align == 'center' ? 'center' : 'flex-start' }}">
+        {%- assign ctas_justify = 'flex-start' -%}
+        {%- if section.settings.text_align == 'center' -%}{%- assign ctas_justify = 'center' -%}{%- endif -%}
+        <div class="hero__ctas" style="justify-content:{{ ctas_justify }}">
           {%- if section.settings.cta1_label != blank -%}
             <a href="{{ section.settings.cta1_url }}" class="btn btn--primary btn--xl">{{ section.settings.cta1_label }}</a>
           {%- endif -%}

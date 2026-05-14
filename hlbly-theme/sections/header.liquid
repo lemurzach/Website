@@ -64,10 +64,17 @@
 
         <!-- Account -->
         {%- if shop.customer_accounts_enabled -%}
+          {%- if customer -%}
+            {%- assign account_url = routes.account_url -%}
+            {%- assign account_label = 'Account' -%}
+          {%- else -%}
+            {%- assign account_url = routes.account_login_url -%}
+            {%- assign account_label = 'Sign in' -%}
+          {%- endif -%}
           <a
-            href="{{ customer ? routes.account_url : routes.account_login_url }}"
+            href="{{ account_url }}"
             class="hdr-icon"
-            aria-label="{{ customer ? 'Account' : 'Sign in' }}"
+            aria-label="{{ account_label }}"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <circle cx="10" cy="6.5" r="3.25" stroke="currentColor" stroke-width="1.5"/>
