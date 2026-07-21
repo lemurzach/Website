@@ -14,19 +14,21 @@ name below, use the closest equivalent — the layout described will still work.
 - **Funnel/Page fonts**: set Heading font = **Poppins** (weight 700–800),
   Body font = **Inter** (weight 400–600). Set this once in the page/funnel's
   font settings so every Headline/Text element inherits it.
-- **Palette** — keep this list open while you style each element:
-  | Name | Hex | Used for |
-  |---|---|---|
-  | Navy | `#0f2a43` | Headlines, header bg on dark sections |
-  | Navy Dark | `#0a1d30` | Darkest backgrounds (top bar, footer) |
-  | Teal | `#12807e` | Eyebrows, links, icon accents |
-  | Teal Light | `#e8f5f4` | Light backgrounds behind teal icons |
-  | Orange (CTA) | `#e8734a` | Every button that should convert |
-  | Gold | `#c9a15a` | Small accents on dark backgrounds only |
-  | Ink | `#1c2b36` | Body text on white |
-  | Gray | `#5b6b76` | Secondary/supporting text |
-  | Soft Gray bg | `#f6f9fa` | Alternating section backgrounds |
-  | Border | `#e3e9ec` | Card borders |
+- **Palette** — keep this table open while you style each element:
+
+| Name | Hex | Used for |
+|---|---|---|
+| Navy | `#0f2a43` | Headlines, header bg on dark sections |
+| Navy Dark | `#0a1d30` | Darkest backgrounds (top bar, footer) |
+| Teal | `#12807e` | Eyebrows, links, icon accents |
+| Teal Light | `#e8f5f4` | Light backgrounds behind teal icons |
+| Orange (CTA) | `#e8734a` | Every button that should convert |
+| Gold | `#c9a15a` | Small accents on dark backgrounds only |
+| Ink | `#1c2b36` | Body text on white |
+| Gray | `#5b6b76` | Secondary/supporting text |
+| Soft Gray bg | `#f6f9fa` | Alternating section backgrounds |
+| Border | `#e3e9ec` | Card borders |
+
 - **Name your hero form section** `consult-form` (GHL lets you name a
   Row/Section for anchor linking). Every "Get My Free Consultation" button on
   the page will use "Scroll to Element" targeting this name — that's how the
