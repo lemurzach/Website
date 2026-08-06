@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 enum ProspectStatus {
@@ -21,40 +21,114 @@ enum DraftStatus {
   DRAFT
   APPROVED
   SENT
+  FAILED
+}
+
+// One organization per email domain. Whoever signs in with an
+// @acme.com address lands in the same shared workspace as their
+// teammates; a different domain gets its own isolated org.
+model Organization {
+  id        String   @id @default(cuid())
+  domain    String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  users     User[]
+  prospects Prospect[]
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  accounts      Account[]
+  sessions      Session[]
+  prospects     Prospect[]   @relation("ProspectCreatedBy")
+  sentDrafts    EmailDraft[] @relation("DraftSentBy")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model Prospect {
-  id           String         @id @default(cuid())
-  companyName  String
-  website      String
-  contactName  String?
-  contactEmail String?
-  status       ProspectStatus @default(PENDING)
-  errorMessage String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id             String         @id @default(cuid())
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdById    String?
+  createdBy      User?          @relation("ProspectCreatedBy", fields: [createdById], references: [id])
+  companyName    String
+  website        String
+  contactName    String?
+  contactEmail   String?
+  status         ProspectStatus @default(PENDING)
+  errorMessage   String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 
   insights Insight[]
   drafts   EmailDraft[]
+
+  @@index([organizationId])
 }
 
 model Insight {
   id         String   @id @default(cuid())
   prospectId String
   prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
-  category   String // "content" | "seo" | "ads" | "tech"
+  category   String
   summary    String
-  rawData    String? // JSON blob of the underlying evidence
+  rawData    String?
   createdAt  DateTime @default(now())
 }
 
 model EmailDraft {
-  id        String      @id @default(cuid())
+  id         String      @id @default(cuid())
   prospectId String
-  prospect  Prospect    @relation(fields: [prospectId], references: [id], onDelete: Cascade)
-  subject   String
-  body      String
-  status    DraftStatus @default(DRAFT)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  prospect   Prospect    @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  subject    String
+  body       String
+  status     DraftStatus @default(DRAFT)
+  sentById   String?
+  sentBy     User?       @relation("DraftSentBy", fields: [sentById], references: [id])
+  sentAt     DateTime?
+  errorMessage String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }

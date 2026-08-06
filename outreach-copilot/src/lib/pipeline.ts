@@ -4,13 +4,15 @@ import { getSeoSignals } from "./seo";
 import { getAdSignals } from "./ads";
 import { extractInsights, draftEmail } from "./llm";
 
-const SENDER_NAME = process.env.SENDER_NAME || "Your Name";
 const SENDER_CONTEXT =
   process.env.SENDER_CONTEXT ||
   "I help companies improve their outreach and marketing operations.";
 
 export async function runProspectPipeline(prospectId: string): Promise<void> {
-  const prospect = await prisma.prospect.findUniqueOrThrow({ where: { id: prospectId } });
+  const prospect = await prisma.prospect.findUniqueOrThrow({
+    where: { id: prospectId },
+    include: { createdBy: true },
+  });
 
   await prisma.prospect.update({
     where: { id: prospectId },
@@ -44,7 +46,7 @@ export async function runProspectPipeline(prospectId: string): Promise<void> {
     const email = await draftEmail({
       companyName: prospect.companyName,
       contactName: prospect.contactName,
-      senderName: SENDER_NAME,
+      senderName: prospect.createdBy?.name || "Your Name",
       senderContext: SENDER_CONTEXT,
       insights,
     });

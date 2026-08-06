@@ -1,19 +1,25 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { requireOrgSession } from "@/lib/session";
 import DraftEditor from "./DraftEditor";
+import StatusPoller from "./StatusPoller";
+import ContactEditor from "./ContactEditor";
 
 export default async function ProspectPage({
   params,
 }: PageProps<"/prospects/[id]">) {
   const { id } = await params;
+  const { organizationId } = await requireOrgSession();
 
   const prospect = await prisma.prospect.findUnique({
     where: { id },
     include: { insights: true, drafts: { orderBy: { createdAt: "desc" } } },
   });
 
-  if (!prospect) notFound();
+  if (!prospect || prospect.organizationId !== organizationId) notFound();
+
+  const isInFlight = prospect.status === "PENDING" || prospect.status === "ANALYZING";
 
   return (
     <div className="container">
@@ -25,6 +31,14 @@ export default async function ProspectPage({
         {prospect.website} · <span className={`badge badge-${prospect.status}`}>{prospect.status}</span>
       </p>
 
+      <ContactEditor
+        prospectId={prospect.id}
+        contactName={prospect.contactName}
+        contactEmail={prospect.contactEmail}
+      />
+
+      {isInFlight && <StatusPoller />}
+
       {prospect.status === "FAILED" && (
         <p style={{ color: "#9b2226", marginBottom: "1.5rem" }}>
           Analysis failed: {prospect.errorMessage}
@@ -33,7 +47,9 @@ export default async function ProspectPage({
 
       <h2 style={{ fontSize: "1.05rem", marginBottom: "0.75rem" }}>Insights</h2>
       {prospect.insights.length === 0 ? (
-        <p className="empty-state">No insights yet.</p>
+        <p className="empty-state">
+          {isInFlight ? "Analyzing…" : "No insights yet."}
+        </p>
       ) : (
         prospect.insights.map((insight) => (
           <div className="insight" key={insight.id}>
@@ -47,9 +63,13 @@ export default async function ProspectPage({
         Email draft
       </h2>
       {prospect.drafts.length === 0 ? (
-        <p className="empty-state">No draft yet.</p>
+        <p className="empty-state">{isInFlight ? "Drafting…" : "No draft yet."}</p>
       ) : (
-        <DraftEditor prospectId={prospect.id} draft={prospect.drafts[0]} />
+        <DraftEditor
+          prospectId={prospect.id}
+          draft={prospect.drafts[0]}
+          contactEmail={prospect.contactEmail}
+        />
       )}
     </div>
   );
