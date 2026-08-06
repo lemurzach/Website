@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum ProspectStatus {
+  PENDING
+  ANALYZING
+  READY
+  FAILED
+}
+
+enum DraftStatus {
+  DRAFT
+  APPROVED
+  SENT
+}
+
+model Prospect {
+  id           String         @id @default(cuid())
+  companyName  String
+  website      String
+  contactName  String?
+  contactEmail String?
+  status       ProspectStatus @default(PENDING)
+  errorMessage String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  insights Insight[]
+  drafts   EmailDraft[]
+}
+
+model Insight {
+  id         String   @id @default(cuid())
+  prospectId String
+  prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  category   String // "content" | "seo" | "ads" | "tech"
+  summary    String
+  rawData    String? // JSON blob of the underlying evidence
+  createdAt  DateTime @default(now())
+}
+
+model EmailDraft {
+  id        String      @id @default(cuid())
+  prospectId String
+  prospect  Prospect    @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  subject   String
+  body      String
+  status    DraftStatus @default(DRAFT)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
