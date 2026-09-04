@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum HeroStatus {
+  ACTIVE
+  RETIRED
+  MISSING
+}
+
+enum VillainStatus {
+  AT_LARGE
+  CAPTURED
+}
+
+enum DangerLevel {
+  LOW
+  MODERATE
+  HIGH
+  EXTREME
+}
+
+model Hero {
+  id                Int        @id @default(autoincrement())
+  rank              Int
+  name              String
+  heroName          String
+  quirk             String
+  quirkDescription  String
+  bio               String
+  imageUrl          String?
+  agency            String?
+  status            HeroStatus @default(ACTIVE)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@index([rank])
+}
+
+model Villain {
+  id                  Int           @id @default(autoincrement())
+  name                String
+  alias               String
+  quirk               String
+  quirkDescription    String
+  bio                 String
+  imageUrl            String?
+  bounty              Int
+  dangerLevel         DangerLevel   @default(MODERATE)
+  status              VillainStatus @default(AT_LARGE)
+  lastKnownLocation   String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([bounty])
+}
