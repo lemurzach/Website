@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { DangerBadge, VillainStatusBadge } from "@/components/badges";
 
+export const dynamic = "force-dynamic";
+
 export default async function VillainsPage() {
   const villains = await prisma.villain.findMany({
     orderBy: { bounty: "desc" },

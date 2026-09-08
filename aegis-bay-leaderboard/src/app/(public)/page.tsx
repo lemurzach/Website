@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { HeroStatusBadge } from "@/components/badges";
 
+export const dynamic = "force-dynamic";
+
 const rankStyles = [
   "border-amber-400/60 bg-amber-400/10 text-amber-300",
   "border-slate-300/50 bg-slate-300/10 text-slate-200",
